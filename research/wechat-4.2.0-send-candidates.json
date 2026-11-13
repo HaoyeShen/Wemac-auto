@@ -1,0 +1,184 @@
+{
+  "binary": "/Applications/WeChat.app/Contents/Resources/wechat.dylib",
+  "sha256": "8180e3d032ca7e5e5136a17d117370143aae562686d37eec26af8215b3970cc2",
+  "architecture": "arm64",
+  "heuristic": "ADRP + nearby ADD, nearest LC_FUNCTION_STARTS entry",
+  "warning": "Static candidates only; register clobbers and function roles require validation.",
+  "references": [
+    {
+      "string": "MMStartTask",
+      "string_offset": "0x9998ba5",
+      "xref_offset": "0x5add150",
+      "candidate_function_offset": "0x5add114",
+      "verified": false
+    },
+    {
+      "string": "MMStartTask",
+      "string_offset": "0x9998ba5",
+      "xref_offset": "0x5add1d8",
+      "candidate_function_offset": "0x5add114",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5ae6ac4",
+      "candidate_function_offset": "0x5ae6a48",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5ae6b14",
+      "candidate_function_offset": "0x5ae6a48",
+      "verified": false
+    },
+    {
+      "string": "MMStartTask",
+      "string_offset": "0x9998ba5",
+      "xref_offset": "0x5ae85bc",
+      "candidate_function_offset": "0x5ae857c",
+      "verified": false
+    },
+    {
+      "string": "Req2Buf",
+      "string_offset": "0x99997e5",
+      "xref_offset": "0x5aea2b0",
+      "candidate_function_offset": "0x5aea248",
+      "verified": false
+    },
+    {
+      "string": "Req2Buf",
+      "string_offset": "0x99997e5",
+      "xref_offset": "0x5aea3d4",
+      "candidate_function_offset": "0x5aea248",
+      "verified": false
+    },
+    {
+      "string": "Req2Buf",
+      "string_offset": "0x99997e5",
+      "xref_offset": "0x5aea44c",
+      "candidate_function_offset": "0x5aea248",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2dd6c",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2e028",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2e314",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2e450",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2e8a4",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2ea8c",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2ee6c",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2f1e0",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2f9cc",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2fde8",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e2fff8",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e301bc",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e3036c",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "MMReq2Buf",
+      "string_offset": "0x999947c",
+      "xref_offset": "0x5e309bc",
+      "candidate_function_offset": "0x5e2dc4c",
+      "verified": false
+    },
+    {
+      "string": "Req2Buf",
+      "string_offset": "0x99997e5",
+      "xref_offset": "0x5f14580",
+      "candidate_function_offset": "0x5f14500",
+      "verified": false
+    },
+    {
+      "string": "Req2Buf",
+      "string_offset": "0x99997e5",
+      "xref_offset": "0x5f145c8",
+      "candidate_function_offset": "0x5f14500",
+      "verified": false
+    },
+    {
+      "string": "Req2Buf",
+      "string_offset": "0x99997e5",
+      "xref_offset": "0x5f1a65c",
+      "candidate_function_offset": "0x5f1a594",
+      "verified": false
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "uploadmsgimg": {
+    "command_id": 110,
+    "submit": "0x31c34b4",
+    "scene_constructor": "0x31c367c",
+    "request_constructor": "0x524b384",
+    "request_size": 392,
+    "request_destructor": "0x524ee04",
+    "serialize": "0x31c3770",
+    "parse_response": "0x31c3830"
+  },
+  "uploadvideo": {
+    "command_id": 149,
+    "submit": "0x3237634",
+    "scene_constructor": "0x32377fc",
+    "request_constructor": "0x524b4ac",
+    "request_size": 336,
+    "request_destructor": "0x5258314",
+    "serialize": "0x32378f0",
+    "parse_response": "0x32379b0"
+  },
+  "sendemoji": {
+    "command_id": 175,
+    "submit": "0x318d514",
+    "scene_constructor": "0x318d6dc",
+    "request_constructor": "0x524b72c",
+    "request_size": 56,
+    "request_destructor": "0x526ee28",
+    "serialize": "0x318d7d0",
+    "parse_response": "0x318d890"
+  },
+  "uploadvoice": {
+    "command_id": 127,
+    "submit": "0x3de4018",
+    "scene_constructor": "0x3de41e0",
+    "request_constructor": "0x47886dc",
+    "request_size": 152,
+    "request_destructor": "0x478c780",
+    "serialize": "0x3de42d4",
+    "parse_response": "0x3de4394"
+  }
+}

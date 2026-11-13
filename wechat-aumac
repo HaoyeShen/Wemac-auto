@@ -1,0 +1,4 @@
+#!/bin/sh
+DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export PYTHONPATH="$DIR/src${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m wechat_aumac "$@"

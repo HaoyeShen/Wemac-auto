@@ -1,0 +1,205 @@
+{
+  "binary": "/Applications/WeChat.app/Contents/Resources/wechat.dylib",
+  "sha256": "8180e3d032ca7e5e5136a17d117370143aae562686d37eec26af8215b3970cc2",
+  "architecture": "arm64",
+  "heuristic": "ADRP + nearby ADD, nearest LC_FUNCTION_STARTS entry",
+  "warning": "Static candidates only; register clobbers and function roles require validation.",
+  "references": [
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae6cd4",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae6da8",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae6e6c",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae70c0",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae7218",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae73c4",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae7494",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae763c",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5ae7788",
+      "candidate_function_offset": "0x5ae6c54",
+      "verified": false
+    },
+    {
+      "string": "Buf2Resp",
+      "string_offset": "0x9999856",
+      "xref_offset": "0x5aea64c",
+      "candidate_function_offset": "0x5aea5c8",
+      "verified": false
+    },
+    {
+      "string": "Buf2Resp",
+      "string_offset": "0x9999856",
+      "xref_offset": "0x5aea7ac",
+      "candidate_function_offset": "0x5aea5c8",
+      "verified": false
+    },
+    {
+      "string": "Buf2Resp",
+      "string_offset": "0x9999856",
+      "xref_offset": "0x5aea948",
+      "candidate_function_offset": "0x5aea5c8",
+      "verified": false
+    },
+    {
+      "string": "Buf2Resp",
+      "string_offset": "0x9999856",
+      "xref_offset": "0x5aea9ec",
+      "candidate_function_offset": "0x5aea5c8",
+      "verified": false
+    },
+    {
+      "string": "CreateSNSUploadTask",
+      "string_offset": "0x99de2bf",
+      "xref_offset": "0x5de08e4",
+      "candidate_function_offset": "0x5de07f4",
+      "verified": false
+    },
+    {
+      "string": "CreateSNSUploadTask",
+      "string_offset": "0x99de2bf",
+      "xref_offset": "0x5de09a4",
+      "candidate_function_offset": "0x5de07f4",
+      "verified": false
+    },
+    {
+      "string": "CreateSNSUploadTask",
+      "string_offset": "0x99de2bf",
+      "xref_offset": "0x5de0e04",
+      "candidate_function_offset": "0x5de07f4",
+      "verified": false
+    },
+    {
+      "string": "CreateSNSUploadTask",
+      "string_offset": "0x99de2bf",
+      "xref_offset": "0x5de0ec0",
+      "candidate_function_offset": "0x5de07f4",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e30d98",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e30f08",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e3109c",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e31308",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e31770",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e3190c",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e31b40",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e31d4c",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "MMBuf2Resp",
+      "string_offset": "0x9998f87",
+      "xref_offset": "0x5e31f1c",
+      "candidate_function_offset": "0x5e30ca8",
+      "verified": false
+    },
+    {
+      "string": "Buf2Resp",
+      "string_offset": "0x9999856",
+      "xref_offset": "0x5f146d4",
+      "candidate_function_offset": "0x5f14664",
+      "verified": false
+    },
+    {
+      "string": "Buf2Resp",
+      "string_offset": "0x9999856",
+      "xref_offset": "0x5f1a7bc",
+      "candidate_function_offset": "0x5f1a6f4",
+      "verified": false
+    }
+  ]
+}

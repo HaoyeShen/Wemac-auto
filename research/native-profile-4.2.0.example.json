@@ -1,0 +1,374 @@
+{
+  "app": "/absolute/path/to/research/WeChat-Hook.app",
+  "corePath": "/absolute/path/to/research/WeChat-Hook.app/Contents/Resources/wechat.dylib",
+  "build": "270348",
+  "architecture": "arm64",
+  "sha256": "REPLACE_WITH_LOCAL_CORE_SHA256",
+  "verified_capabilities": [],
+  "functions": {
+    "serializeText": {
+      "offset": 52220192,
+      "head": "ff0301d1f44f02a9fd7b03a9fdc30091"
+    },
+    "parseTextResponse": {
+      "offset": 52220360,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "bufferPtr": {
+      "offset": 74999892,
+      "head": "f44fbea9fd7b01a9fd430091f30301aa"
+    },
+    "bufferLength": {
+      "offset": 74999956,
+      "head": "080040f9000d40b9c0035fd6080040f9"
+    },
+    "requestConstructor": {
+      "offset": 75007644,
+      "head": "1ffc00a9a8c202b008012991080000f9"
+    },
+    "requestDestructor": {
+      "offset": 75013828,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "parseProtobuf": {
+      "offset": 96588444,
+      "head": "ff0303d1f44f0aa9fd7b0ba9fdc30291"
+    },
+    "serializeProtobuf": {
+      "offset": 96589836,
+      "head": "e10308aa1f7d00a91f0900f999ffff17"
+    },
+    "sizedDelete": {
+      "offset": 120247488,
+      "head": "704e01b0109645f900021fd6704e01b0"
+    },
+    "singleton": {
+      "offset": 75062964,
+      "head": "08f10290006d44f9c0035fd6ffc300d1"
+    },
+    "submitText": {
+      "offset": 52219492,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "expectedManagerSend": {
+      "offset": 74847800,
+      "head": "004000d1ccfcff17ffc306d1f65718a9"
+    },
+    "parseSyncResponse": {
+      "offset": 74396024,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "serialize_uploadmsgimg": {
+      "offset": 52180848,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "response_uploadmsgimg": {
+      "offset": 52181040,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "serialize_uploadvideo": {
+      "offset": 52656368,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "response_uploadvideo": {
+      "offset": 52656560,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "serialize_sendemoji": {
+      "offset": 51959760,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "response_sendemoji": {
+      "offset": 51959952,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "serialize_uploadvoice": {
+      "offset": 64897748,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "response_uploadvoice": {
+      "offset": 64897940,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "imageRequestConstructor": {
+      "offset": 86291332,
+      "head": "e86e02b008a13c91080000f91f7801b9"
+    },
+    "imageRequestDestructor": {
+      "offset": 86306308,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "videoRequestConstructor": {
+      "offset": 86291628,
+      "head": "1f4001b9e86e02d008010691087c00a9"
+    },
+    "videoRequestDestructor": {
+      "offset": 86344468,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "stickerRequestConstructor": {
+      "offset": 86292268,
+      "head": "e86e02d008a129911ffc02a9087c00a9"
+    },
+    "stickerRequestDestructor": {
+      "offset": 86437416,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "voiceRequestConstructor": {
+      "offset": 75007708,
+      "head": "a8f702f008e10a91a9c202b029a12e91"
+    },
+    "voiceRequestDestructor": {
+      "offset": 75024256,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "moment_post_constructor": {
+      "offset": 88566812,
+      "head": "485e02f008611591080000f91ffc04a9"
+    },
+    "moment_post_destructor": {
+      "offset": 88679572,
+      "head": "f4feff17fd7bbfa9fd030091f1feff97"
+    },
+    "moment_post_serialize": {
+      "offset": 61881012,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "moment_post_response": {
+      "offset": 61881204,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "moment_interaction_constructor": {
+      "offset": 88567804,
+      "head": "489002b008e10a91495e02f029010891"
+    },
+    "moment_interaction_destructor": {
+      "offset": 88795332,
+      "head": "d8ffff17fd7bbfa9fd030091d5ffff97"
+    },
+    "moment_interaction_serialize": {
+      "offset": 61818628,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "moment_interaction_response": {
+      "offset": 61818820,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "moment_objectop_constructor": {
+      "offset": 88568116,
+      "head": "485e02f008a11c911ffc02a91f3800b9"
+    },
+    "moment_objectop_destructor": {
+      "offset": 88827244,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "moment_objectop_serialize": {
+      "offset": 40572372,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "moment_objectop_response": {
+      "offset": 40572564,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "imageSubmit": {
+      "offset": 52180148,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "videoSubmit": {
+      "offset": 52655668,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "stickerSubmit": {
+      "offset": 51959060,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "voiceSubmit": {
+      "offset": 64897048,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "accountGetter": {
+      "offset": 75091272,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "moment_timeline_constructor": {
+      "offset": 88567168,
+      "head": "485e02f0082128911ffc04a9499002b0"
+    },
+    "moment_timeline_destructor": {
+      "offset": 88723696,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "moment_timeline_serialize": {
+      "offset": 62597536,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "moment_timeline_response": {
+      "offset": 62597728,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "moment_timeline_submit": {
+      "offset": 62596836,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "moment_detail_constructor": {
+      "offset": 88567008,
+      "head": "485e02f008211991087c00a91f7c01a9"
+    },
+    "moment_detail_destructor": {
+      "offset": 88699016,
+      "head": "485d02d008211991080000f9288f02b0"
+    },
+    "moment_detail_serialize": {
+      "offset": 62687416,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "moment_detail_response": {
+      "offset": 62687608,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "moment_detail_submit": {
+      "offset": 62686716,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "moment_post_submit": {
+      "offset": 61880312,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "moment_interaction_submit": {
+      "offset": 61817928,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "moment_objectop_submit": {
+      "offset": 40571672,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    }
+  },
+  "completionHelper": {
+    "path": "/absolute/path/to/research/WeChat-Hook.app/Contents/Frameworks/libaumac_completion.dylib",
+    "sha256": "REPLACE_WITH_LOCAL_HELPER_SHA256"
+  },
+  "requestTypes": {
+    "text": {
+      "constructor": "requestConstructor",
+      "destructor": "requestDestructor",
+      "size": 48
+    },
+    "image": {
+      "constructor": "imageRequestConstructor",
+      "destructor": "imageRequestDestructor",
+      "size": 392
+    },
+    "video": {
+      "constructor": "videoRequestConstructor",
+      "destructor": "videoRequestDestructor",
+      "size": 336
+    },
+    "sticker": {
+      "constructor": "stickerRequestConstructor",
+      "destructor": "stickerRequestDestructor",
+      "size": 56
+    },
+    "voice": {
+      "constructor": "voiceRequestConstructor",
+      "destructor": "voiceRequestDestructor",
+      "size": 152
+    },
+    "moment_post": {
+      "constructor": "moment_post_constructor",
+      "destructor": "moment_post_destructor",
+      "size": 416
+    },
+    "moment_interaction": {
+      "constructor": "moment_interaction_constructor",
+      "destructor": "moment_interaction_destructor",
+      "size": 40
+    },
+    "moment_objectop": {
+      "constructor": "moment_objectop_constructor",
+      "destructor": "moment_objectop_destructor",
+      "size": 64
+    },
+    "moment_timeline": {
+      "constructor": "moment_timeline_constructor",
+      "destructor": "moment_timeline_destructor",
+      "size": 152
+    },
+    "moment_detail": {
+      "constructor": "moment_detail_constructor",
+      "destructor": "moment_detail_destructor",
+      "size": 40
+    }
+  },
+  "observations": {
+    "image": {
+      "serialize": "serialize_uploadmsgimg",
+      "response": "response_uploadmsgimg",
+      "command_id": 110,
+      "source": "previously observed task path"
+    },
+    "video": {
+      "serialize": "serialize_uploadvideo",
+      "response": "response_uploadvideo",
+      "command_id": 149,
+      "source": "previously observed task path"
+    },
+    "sticker": {
+      "serialize": "serialize_sendemoji",
+      "response": "response_sendemoji",
+      "command_id": 175,
+      "source": "previously observed task path"
+    },
+    "voice": {
+      "serialize": "serialize_uploadvoice",
+      "response": "response_uploadvoice",
+      "command_id": 127,
+      "source": "previously observed task path"
+    },
+    "moment_post": {
+      "serialize": "moment_post_serialize",
+      "response": "moment_post_response",
+      "command_id": 209,
+      "source": "static scene serializer/parser analysis; not dynamically observed"
+    },
+    "moment_interaction": {
+      "serialize": "moment_interaction_serialize",
+      "response": "moment_interaction_response",
+      "command_id": 213,
+      "source": "static scene serializer/parser analysis; not dynamically observed"
+    },
+    "moment_objectop": {
+      "serialize": "moment_objectop_serialize",
+      "response": "moment_objectop_response",
+      "command_id": 218,
+      "source": "static scene serializer/parser analysis; not dynamically observed"
+    },
+    "moment_timeline": {
+      "serialize": "moment_timeline_serialize",
+      "response": "moment_timeline_response",
+      "command_id": 211,
+      "source": "static read-only scene analysis"
+    },
+    "moment_detail": {
+      "serialize": "moment_detail_serialize",
+      "response": "moment_detail_response",
+      "command_id": 210,
+      "source": "static read-only scene analysis"
+    }
+  },
+  "mediaSubmits": {
+    "image": "imageSubmit",
+    "video": "videoSubmit",
+    "sticker": "stickerSubmit",
+    "voice": "voiceSubmit"
+  },
+  "readSubmits": {
+    "moment_timeline": "moment_timeline_submit",
+    "moment_detail": "moment_detail_submit"
+  },
+  "momentSubmits": {
+    "moment_post": "moment_post_submit",
+    "moment_interaction": "moment_interaction_submit",
+    "moment_objectop": "moment_objectop_submit"
+  },
+  "moments_write_server_verified": false
+}

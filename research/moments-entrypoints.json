@@ -1,0 +1,113 @@
+{
+  "version": "4.2.0",
+  "build": "270348",
+  "architecture": "arm64",
+  "core_sha256": "8180e3d032ca7e5e5136a17d117370143aae562686d37eec26af8215b3970cc2",
+  "method": "static binary analysis only; no attach, calls, publication, likes or comments",
+  "publish": {
+    "entry_candidate": "0x3afea48",
+    "coordinator_candidate": "0x3afce60",
+    "video_preprocess_candidate": "0x3afee30",
+    "send_post_request_candidate": "0x3aff550",
+    "request_wrapper_candidate": "0x3b00e60",
+    "request_descriptor": "0x3b02080",
+    "command_id": 209,
+    "cgi": "/cgi-bin/micromsg-bin/mmsnspost",
+    "native_submit_candidate": "0x3b037f8",
+    "request_type": "micromsg.SnsPostRequest",
+    "business_field_mapping_complete": false
+  },
+  "interactions": {
+    "menu_dispatch_candidate": "0x1b57278",
+    "action0_wrapper_candidate": "0x44ae2b8",
+    "action1_wrapper_candidate": "0x44ae40c",
+    "action_labels_verified": false,
+    "comment_request_descriptor": "0x3af2ca0",
+    "comment_command_id": 213,
+    "comment_cgi": "/cgi-bin/micromsg-bin/mmsnscomment",
+    "object_operation_descriptor": "0x26afb70",
+    "object_operation_command_id": 218,
+    "object_operation_cgi": "/cgi-bin/micromsg-bin/mmsnsobjectop",
+    "reporting_helper_not_action": "0x4c997d4",
+    "comment_wrapper_candidate": "0x3aecae8",
+    "comment_native_submit_candidate": "0x3af4448",
+    "object_operation_native_submit_candidate": "0x26b1318",
+    "action_labels_static_inference": {
+      "menu_action_0": "like direction, high-confidence static candidate; some post categories traced",
+      "menu_action_1": "unlike direction, high-confidence static candidate; some post categories traced"
+    },
+    "like_static_evidence": {
+      "data_layer": "0x3b9c738",
+      "task_constructor": "0x3aeb18c",
+      "request_builder": "0x3aeb90c",
+      "request_type": "micromsg.SnsCommentRequest",
+      "group_type": "micromsg.SnsActionGroup",
+      "action_type": "micromsg.SnsAction",
+      "action_field_number": 5,
+      "action_value": 1,
+      "text_field_candidate": 8,
+      "post_id_group_field_candidate": 1,
+      "dynamic_verified": false
+    },
+    "unlike_static_evidence": {
+      "data_layer": "0x3b9d32c",
+      "decoded_label": "DeleteLikeDataItem",
+      "operation_builder": "0x3afa7d4",
+      "request_wrapper": "0x26aeb5c",
+      "command_id": 218,
+      "operation_type": "micromsg.SnsObjectOp",
+      "post_id_field_candidate": 1,
+      "operation_field_number": 2,
+      "operation_value": 5,
+      "dynamic_verified": false
+    },
+    "comment_action_value_verified": false,
+    "comment_action_value_static": 2,
+    "comment_action_assignment": "0x3b9dac8"
+  },
+  "descriptor_callers": [
+    {
+      "callee": "mmsnsobjectop descriptor",
+      "descriptor": "0x26afb70",
+      "caller": "0x26aeb5c",
+      "call": "0x26aee08"
+    },
+    {
+      "callee": "mmsnsobjectop descriptor",
+      "descriptor": "0x26afb70",
+      "caller": "0x26b1318",
+      "call": "0x26b1364"
+    },
+    {
+      "callee": "mmsnscomment descriptor",
+      "descriptor": "0x3af2ca0",
+      "caller": "0x3aecae8",
+      "call": "0x3aecd8c"
+    },
+    {
+      "callee": "mmsnscomment descriptor",
+      "descriptor": "0x3af2ca0",
+      "caller": "0x3af4448",
+      "call": "0x3af4494"
+    },
+    {
+      "callee": "mmsnspost descriptor",
+      "descriptor": "0x3b02080",
+      "caller": "0x3b00e60",
+      "call": "0x3b010d4"
+    },
+    {
+      "callee": "mmsnspost descriptor",
+      "descriptor": "0x3b02080",
+      "caller": "0x3b037f8",
+      "call": "0x3b03844"
+    }
+  ],
+  "dynamic_verified": false,
+  "operations_performed": [],
+  "parameter_layout_report": "moments-request-layout.json",
+  "parameter_analysis_method": "offline GetTypeName literal reconstruction, serializer inspection and business assignment tracking",
+  "write_codec_verification_report": "moments-write-codec-verification.json",
+  "read_verification_report": "moments-read-verification.json",
+  "moments_writes_server_verified": false
+}

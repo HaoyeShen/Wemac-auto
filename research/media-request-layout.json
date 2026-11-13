@@ -1,0 +1,1406 @@
+{
+  "version": "4.2.0",
+  "build": "270348",
+  "core_sha256": "8180e3d032ca7e5e5136a17d117370143aae562686d37eec26af8215b3970cc2",
+  "method": "offline static literal reconstruction and serializer call inspection",
+  "dynamic_verified": false,
+  "operations_performed": [],
+  "types": {
+    "image_request": {
+      "type_name": "micromsg.UploadMsgImgRequest",
+      "vtable": "0xa028f28",
+      "get_type_name": "0x52532d8",
+      "serializer": "0x5251968",
+      "type_name_literals": [
+        {
+          "instruction": "0x52532fc",
+          "literal": "0x881e3c0",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x5253304",
+          "literal": "0x8b4d678",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x5253310",
+          "literal": "0x8c3aac8",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525331c",
+          "literal": "0x876f630",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x5253334",
+          "literal": "0x8c449b0",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525333c",
+          "literal": "0x8933980",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525334c",
+          "literal": "0x864e8f8",
+          "bytes": 8
+        }
+      ],
+      "fields": [
+        {
+          "number": 1,
+          "encoding": "message",
+          "storage_offset": "0x8",
+          "load_bits": 64,
+          "load_instruction": "0x5251a78",
+          "writer_call": "0x5251a94",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 2,
+          "encoding": "message",
+          "storage_offset": "0x10",
+          "load_bits": 64,
+          "load_instruction": "0x5251aa0",
+          "writer_call": "0x5251abc",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 3,
+          "encoding": "message",
+          "storage_offset": "0x18",
+          "load_bits": 64,
+          "load_instruction": "0x5251ac8",
+          "writer_call": "0x5251ae4",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 4,
+          "encoding": "message",
+          "storage_offset": "0x20",
+          "load_bits": 64,
+          "load_instruction": "0x5251af0",
+          "writer_call": "0x5251b0c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 5,
+          "encoding": "varint_32",
+          "storage_offset": "0x28",
+          "load_bits": 32,
+          "load_instruction": "0x5251b18",
+          "writer_call": "0x5251b24",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 6,
+          "encoding": "varint_32",
+          "storage_offset": "0x2c",
+          "load_bits": 32,
+          "load_instruction": "0x5251b30",
+          "writer_call": "0x5251b3c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 7,
+          "encoding": "varint_32",
+          "storage_offset": "0x30",
+          "load_bits": 32,
+          "load_instruction": "0x5251b48",
+          "writer_call": "0x5251b54",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 8,
+          "encoding": "message",
+          "storage_offset": "0x38",
+          "load_bits": 64,
+          "load_instruction": "0x5251b60",
+          "writer_call": "0x5251b7c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 9,
+          "encoding": "varint_32",
+          "storage_offset": "0x34",
+          "load_bits": 32,
+          "load_instruction": "0x5251b88",
+          "writer_call": "0x5251b94",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 10,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x40",
+          "load_bits": 64,
+          "load_instruction": "0x5251ba0",
+          "writer_call": "0x5251bac",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 11,
+          "encoding": "varint_32",
+          "storage_offset": "0x48",
+          "load_bits": 32,
+          "load_instruction": "0x5251bb8",
+          "writer_call": "0x5251bc4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 12,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x4c",
+          "load_bits": 32,
+          "load_instruction": "0x5251bd0",
+          "writer_call": "0x5251bdc",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 13,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x60",
+          "load_bits": 32,
+          "load_instruction": "0x5251be8",
+          "writer_call": "0x5251bf4",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 14,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x50",
+          "load_bits": 64,
+          "load_instruction": "0x5251c00",
+          "writer_call": "0x5251c0c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 15,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x58",
+          "load_bits": 64,
+          "load_instruction": "0x5251c18",
+          "writer_call": "0x5251c24",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 16,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x68",
+          "load_bits": 64,
+          "load_instruction": "0x5251c30",
+          "writer_call": "0x5251c3c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 17,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x70",
+          "load_bits": 64,
+          "load_instruction": "0x5251c48",
+          "writer_call": "0x5251c54",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 18,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x64",
+          "load_bits": 32,
+          "load_instruction": "0x5251c60",
+          "writer_call": "0x5251c6c",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 19,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x78",
+          "load_bits": 32,
+          "load_instruction": "0x5251c78",
+          "writer_call": "0x5251c84",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 20,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x7c",
+          "load_bits": 32,
+          "load_instruction": "0x5251c90",
+          "writer_call": "0x5251c9c",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 21,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x80",
+          "load_bits": 64,
+          "load_instruction": "0x5251ca8",
+          "writer_call": "0x5251cb4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 22,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x88",
+          "load_bits": 32,
+          "load_instruction": "0x5251cc0",
+          "writer_call": "0x5251ccc",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 23,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x8c",
+          "load_bits": 32,
+          "load_instruction": "0x5251cd8",
+          "writer_call": "0x5251ce4",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 24,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x98",
+          "load_bits": 32,
+          "load_instruction": "0x5251cf0",
+          "writer_call": "0x5251cfc",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 25,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x90",
+          "load_bits": 64,
+          "load_instruction": "0x5251d08",
+          "writer_call": "0x5251d14",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 26,
+          "encoding": "varint_32",
+          "storage_offset": "0x9c",
+          "load_bits": 32,
+          "load_instruction": "0x5251d20",
+          "writer_call": "0x5251d2c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 27,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xa0",
+          "load_bits": 64,
+          "load_instruction": "0x5251d38",
+          "writer_call": "0x5251d44",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 28,
+          "encoding": "varint_32",
+          "storage_offset": "0xa8",
+          "load_bits": 32,
+          "load_instruction": "0x5251d50",
+          "writer_call": "0x5251d5c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 29,
+          "encoding": "varint_32",
+          "storage_offset": "0xac",
+          "load_bits": 32,
+          "load_instruction": "0x5251d68",
+          "writer_call": "0x5251d74",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 30,
+          "encoding": "varint_32",
+          "storage_offset": "0xc8",
+          "load_bits": 32,
+          "load_instruction": "0x5251d80",
+          "writer_call": "0x5251d8c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 31,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xb0",
+          "load_bits": 64,
+          "load_instruction": "0x5251d98",
+          "writer_call": "0x5251da4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 32,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xb8",
+          "load_bits": 64,
+          "load_instruction": "0x5251db0",
+          "writer_call": "0x5251dbc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 33,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xc0",
+          "load_bits": 64,
+          "load_instruction": "0x5251dc8",
+          "writer_call": "0x5251dd4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 34,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xd0",
+          "load_bits": 64,
+          "load_instruction": "0x5251de0",
+          "writer_call": "0x5251dec",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 35,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xd8",
+          "load_bits": 64,
+          "load_instruction": "0x5251df8",
+          "writer_call": "0x5251e04",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 36,
+          "encoding": "varint_32",
+          "storage_offset": "0xcc",
+          "load_bits": 32,
+          "load_instruction": "0x5251e10",
+          "writer_call": "0x5251e1c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 37,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xe0",
+          "load_bits": 64,
+          "load_instruction": "0x5251e28",
+          "writer_call": "0x5251e34",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 38,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xe8",
+          "load_bits": 64,
+          "load_instruction": "0x5251e40",
+          "writer_call": "0x5251e4c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 39,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xf0",
+          "load_bits": 64,
+          "load_instruction": "0x5251e58",
+          "writer_call": "0x5251e64",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 40,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xf8",
+          "load_bits": 64,
+          "load_instruction": "0x5251e70",
+          "writer_call": "0x5251e7c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 41,
+          "encoding": "varint_32",
+          "storage_offset": "0x110",
+          "load_bits": 32,
+          "load_instruction": "0x5251e88",
+          "writer_call": "0x5251e94",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 42,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x100",
+          "load_bits": 64,
+          "load_instruction": "0x5251ea0",
+          "writer_call": "0x5251eac",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 43,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x108",
+          "load_bits": 64,
+          "load_instruction": "0x5251eb8",
+          "writer_call": "0x5251ec4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 44,
+          "encoding": "message",
+          "storage_offset": "0x118",
+          "load_bits": 64,
+          "load_instruction": "0x5251ed0",
+          "writer_call": "0x5251eec",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 45,
+          "encoding": "message",
+          "storage_offset": "0x120",
+          "load_bits": 64,
+          "load_instruction": "0x5251ef8",
+          "writer_call": "0x5251f14",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 46,
+          "encoding": "varint_32",
+          "storage_offset": "0x114",
+          "load_bits": 32,
+          "load_instruction": "0x5251f20",
+          "writer_call": "0x5251f2c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 47,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x128",
+          "load_bits": 64,
+          "load_instruction": "0x5251f38",
+          "writer_call": "0x5251f44",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 48,
+          "encoding": "message",
+          "storage_offset": "0x130",
+          "load_bits": 64,
+          "load_instruction": "0x5251f50",
+          "writer_call": "0x5251f6c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 49,
+          "encoding": "varint_32",
+          "storage_offset": "0x138",
+          "load_bits": 32,
+          "load_instruction": "0x5251f78",
+          "writer_call": "0x5251f84",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 50,
+          "encoding": "varint_32",
+          "storage_offset": "0x13c",
+          "load_bits": 32,
+          "load_instruction": "0x5251f90",
+          "writer_call": "0x5251f9c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 51,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x140",
+          "load_bits": 64,
+          "load_instruction": "0x5251fa8",
+          "writer_call": "0x5251fb4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 52,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x148",
+          "load_bits": 64,
+          "load_instruction": "0x5251fc0",
+          "writer_call": "0x5251fcc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 53,
+          "encoding": "varint_32",
+          "storage_offset": "0x160",
+          "load_bits": 32,
+          "load_instruction": "0x5251fd8",
+          "writer_call": "0x5251fe4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 54,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x150",
+          "load_bits": 64,
+          "load_instruction": "0x5251ff0",
+          "writer_call": "0x5251ffc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 55,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x158",
+          "load_bits": 64,
+          "load_instruction": "0x5252008",
+          "writer_call": "0x5252014",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 56,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x168",
+          "load_bits": 64,
+          "load_instruction": "0x5252020",
+          "writer_call": "0x525202c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 57,
+          "encoding": "message",
+          "storage_offset": "0x170",
+          "load_bits": 64,
+          "load_instruction": "0x5252038",
+          "writer_call": "0x5252054",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 58,
+          "encoding": "varint_32",
+          "storage_offset": "0x164",
+          "load_bits": 32,
+          "load_instruction": "0x5252060",
+          "writer_call": "0x5252074",
+          "writer": "0x5c1e618"
+        }
+      ]
+    },
+    "video_request": {
+      "type_name": "micromsg.UploadVideoRequest",
+      "vtable": "0xa029180",
+      "get_type_name": "0x525bb9c",
+      "serializer": "0x525a630",
+      "type_name_literals": [
+        {
+          "instruction": "0x525bbc0",
+          "literal": "0x881e3c0",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525bbc8",
+          "literal": "0x8b4d678",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525bbd4",
+          "literal": "0x8c3aac8",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525bbe0",
+          "literal": "0x87373f8",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525bbf8",
+          "literal": "0x8659220",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525bc00",
+          "literal": "0x860ed60",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x525bc10",
+          "literal": "0x86db2d0",
+          "bytes": 8
+        }
+      ],
+      "fields": [
+        {
+          "number": 1,
+          "encoding": "message",
+          "storage_offset": "0x8",
+          "load_bits": 64,
+          "load_instruction": "0x525a720",
+          "writer_call": "0x525a73c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 2,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x10",
+          "load_bits": 64,
+          "load_instruction": "0x525a748",
+          "writer_call": "0x525a754",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 3,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x18",
+          "load_bits": 64,
+          "load_instruction": "0x525a760",
+          "writer_call": "0x525a76c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 4,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x20",
+          "load_bits": 64,
+          "load_instruction": "0x525a778",
+          "writer_call": "0x525a784",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 5,
+          "encoding": "varint_32",
+          "storage_offset": "0x28",
+          "load_bits": 32,
+          "load_instruction": "0x525a790",
+          "writer_call": "0x525a79c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 6,
+          "encoding": "varint_32",
+          "storage_offset": "0x2c",
+          "load_bits": 32,
+          "load_instruction": "0x525a7a8",
+          "writer_call": "0x525a7b4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 7,
+          "encoding": "message",
+          "storage_offset": "0x30",
+          "load_bits": 64,
+          "load_instruction": "0x525a7c0",
+          "writer_call": "0x525a7dc",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 8,
+          "encoding": "varint_32",
+          "storage_offset": "0x38",
+          "load_bits": 32,
+          "load_instruction": "0x525a7e8",
+          "writer_call": "0x525a7f4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 9,
+          "encoding": "varint_32",
+          "storage_offset": "0x3c",
+          "load_bits": 32,
+          "load_instruction": "0x525a800",
+          "writer_call": "0x525a80c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 10,
+          "encoding": "message",
+          "storage_offset": "0x40",
+          "load_bits": 64,
+          "load_instruction": "0x525a818",
+          "writer_call": "0x525a834",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 11,
+          "encoding": "varint_32",
+          "storage_offset": "0x48",
+          "load_bits": 32,
+          "load_instruction": "0x525a840",
+          "writer_call": "0x525a84c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 12,
+          "encoding": "varint_32",
+          "storage_offset": "0x4c",
+          "load_bits": 32,
+          "load_instruction": "0x525a858",
+          "writer_call": "0x525a864",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 13,
+          "encoding": "varint_32",
+          "storage_offset": "0x50",
+          "load_bits": 32,
+          "load_instruction": "0x525a870",
+          "writer_call": "0x525a87c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 14,
+          "encoding": "varint_32",
+          "storage_offset": "0x54",
+          "load_bits": 32,
+          "load_instruction": "0x525a888",
+          "writer_call": "0x525a894",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 15,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x58",
+          "load_bits": 64,
+          "load_instruction": "0x525a8a0",
+          "writer_call": "0x525a8ac",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 16,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x60",
+          "load_bits": 64,
+          "load_instruction": "0x525a8b8",
+          "writer_call": "0x525a8c4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 17,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x68",
+          "load_bits": 64,
+          "load_instruction": "0x525a8d0",
+          "writer_call": "0x525a8dc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 18,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x78",
+          "load_bits": 32,
+          "load_instruction": "0x525a8e8",
+          "writer_call": "0x525a8f4",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 19,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x70",
+          "load_bits": 64,
+          "load_instruction": "0x525a900",
+          "writer_call": "0x525a90c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 20,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x7c",
+          "load_bits": 32,
+          "load_instruction": "0x525a918",
+          "writer_call": "0x525a924",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 21,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x80",
+          "load_bits": 32,
+          "load_instruction": "0x525a930",
+          "writer_call": "0x525a93c",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 22,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x84",
+          "load_bits": 32,
+          "load_instruction": "0x525a948",
+          "writer_call": "0x525a954",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 23,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x88",
+          "load_bits": 64,
+          "load_instruction": "0x525a960",
+          "writer_call": "0x525a96c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 24,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x90",
+          "load_bits": 32,
+          "load_instruction": "0x525a978",
+          "writer_call": "0x525a984",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 25,
+          "encoding": "varint_32",
+          "storage_offset": "0x94",
+          "load_bits": 32,
+          "load_instruction": "0x525a990",
+          "writer_call": "0x525a99c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 26,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x98",
+          "load_bits": 64,
+          "load_instruction": "0x525a9a8",
+          "writer_call": "0x525a9b4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 27,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xa0",
+          "load_bits": 64,
+          "load_instruction": "0x525a9c0",
+          "writer_call": "0x525a9cc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 28,
+          "encoding": "varint_32",
+          "storage_offset": "0xc8",
+          "load_bits": 32,
+          "load_instruction": "0x525a9d8",
+          "writer_call": "0x525a9e4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 29,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xa8",
+          "load_bits": 64,
+          "load_instruction": "0x525a9f0",
+          "writer_call": "0x525a9fc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 30,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xb0",
+          "load_bits": 64,
+          "load_instruction": "0x525aa08",
+          "writer_call": "0x525aa14",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 31,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xb8",
+          "load_bits": 64,
+          "load_instruction": "0x525aa20",
+          "writer_call": "0x525aa2c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 32,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xc0",
+          "load_bits": 64,
+          "load_instruction": "0x525aa38",
+          "writer_call": "0x525aa44",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 33,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xd0",
+          "load_bits": 64,
+          "load_instruction": "0x525aa50",
+          "writer_call": "0x525aa5c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 34,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xd8",
+          "load_bits": 64,
+          "load_instruction": "0x525aa68",
+          "writer_call": "0x525aa74",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 35,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xe0",
+          "load_bits": 64,
+          "load_instruction": "0x525aa80",
+          "writer_call": "0x525aa8c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 36,
+          "encoding": "varint_32",
+          "storage_offset": "0xcc",
+          "load_bits": 32,
+          "load_instruction": "0x525aa98",
+          "writer_call": "0x525aaa4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 37,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xe8",
+          "load_bits": 64,
+          "load_instruction": "0x525aab0",
+          "writer_call": "0x525aabc",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 38,
+          "encoding": "varint_32",
+          "storage_offset": "0xf0",
+          "load_bits": 32,
+          "load_instruction": "0x525aac8",
+          "writer_call": "0x525aad4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 39,
+          "encoding": "varint_32",
+          "storage_offset": "0xf4",
+          "load_bits": 32,
+          "load_instruction": "0x525aae0",
+          "writer_call": "0x525aaec",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 48,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0xf8",
+          "load_bits": 64,
+          "load_instruction": "0x525aaf8",
+          "writer_call": "0x525ab04",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 49,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x100",
+          "load_bits": 64,
+          "load_instruction": "0x525ab10",
+          "writer_call": "0x525ab1c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 50,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x108",
+          "load_bits": 64,
+          "load_instruction": "0x525ab28",
+          "writer_call": "0x525ab34",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 51,
+          "encoding": "varint_32",
+          "storage_offset": "0x110",
+          "load_bits": 32,
+          "load_instruction": "0x525ab40",
+          "writer_call": "0x525ab4c",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 52,
+          "encoding": "varint_32",
+          "storage_offset": "0x114",
+          "load_bits": 32,
+          "load_instruction": "0x525ab58",
+          "writer_call": "0x525ab64",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 53,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x118",
+          "load_bits": 64,
+          "load_instruction": "0x525ab70",
+          "writer_call": "0x525ab7c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 54,
+          "encoding": "varint_32",
+          "storage_offset": "0x128",
+          "load_bits": 32,
+          "load_instruction": "0x525ab88",
+          "writer_call": "0x525ab94",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 55,
+          "encoding": "message",
+          "storage_offset": "0x120",
+          "load_bits": 64,
+          "load_instruction": "0x525aba0",
+          "writer_call": "0x525abbc",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 56,
+          "encoding": "message",
+          "storage_offset": "0x130",
+          "load_bits": 64,
+          "load_instruction": "0x525abc8",
+          "writer_call": "0x525abe4",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 57,
+          "encoding": "varint_32",
+          "storage_offset": "0x12c",
+          "load_bits": 32,
+          "load_instruction": "0x525abf0",
+          "writer_call": "0x525abfc",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 58,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x138",
+          "load_bits": 64,
+          "load_instruction": "0x525ac08",
+          "writer_call": "0x525ac1c",
+          "writer": "0x5c1e73c"
+        }
+      ]
+    },
+    "emoji_request": {
+      "type_name": "micromsg.UploadEmojiRequest",
+      "vtable": "0xa029a68",
+      "get_type_name": "0x526f714",
+      "serializer": "0x526f43c",
+      "type_name_literals": [
+        {
+          "instruction": "0x526f738",
+          "literal": "0x881e3c0",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x526f740",
+          "literal": "0x8b4d678",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x526f74c",
+          "literal": "0x8c3aac8",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x526f758",
+          "literal": "0x87058f8",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x526f770",
+          "literal": "0x8910460",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x526f778",
+          "literal": "0x860ed60",
+          "bytes": 8
+        },
+        {
+          "instruction": "0x526f788",
+          "literal": "0x86db2d0",
+          "bytes": 8
+        }
+      ],
+      "fields": [
+        {
+          "number": 1,
+          "encoding": "message",
+          "storage_offset": "0x8",
+          "load_bits": 64,
+          "load_instruction": "0x526f45c",
+          "writer_call": "0x526f478",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 2,
+          "encoding": "varint_signed_32",
+          "storage_offset": "0x28",
+          "load_bits": 32,
+          "load_instruction": "0x526f484",
+          "writer_call": "0x526f490",
+          "writer": "0x5c1e598"
+        },
+        {
+          "number": 3,
+          "encoding": "message",
+          "storage_offset": "0x10",
+          "load_bits": 64,
+          "repeated_pointer_array": true,
+          "load_instruction": "0x526f4a8",
+          "writer_call": "0x526f4b4",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 4,
+          "encoding": "varint_32",
+          "storage_offset": "0x2c",
+          "load_bits": 32,
+          "load_instruction": "0x526f4e0",
+          "writer_call": "0x526f4f8",
+          "writer": "0x5c1e618"
+        }
+      ]
+    },
+    "voice_request": {
+      "type_name": "micromsg.UploadVoiceRequest",
+      "vtable": "0x9fddba8",
+      "get_type_name": "0x478e094",
+      "serializer": "0x478d6ec",
+      "type_name_literals": [
+        {
+          "instruction": "0x478e0c8",
+          "literal": "0x8b4db12",
+          "bytes": 28,
+          "decoder": "bounded subtract-xor byte loop"
+        }
+      ],
+      "fields": [
+        {
+          "number": 1,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x8",
+          "load_bits": 64,
+          "load_instruction": "0x478d768",
+          "writer_call": "0x478d774",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 2,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x10",
+          "load_bits": 64,
+          "load_instruction": "0x478d780",
+          "writer_call": "0x478d78c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 3,
+          "encoding": "varint_32",
+          "storage_offset": "0x18",
+          "load_bits": 32,
+          "load_instruction": "0x478d798",
+          "writer_call": "0x478d7a4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 4,
+          "encoding": "varint_32",
+          "storage_offset": "0x1c",
+          "load_bits": 32,
+          "load_instruction": "0x478d7b0",
+          "writer_call": "0x478d7bc",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 5,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x20",
+          "load_bits": 64,
+          "load_instruction": "0x478d7c8",
+          "writer_call": "0x478d7d4",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 6,
+          "encoding": "varint_32",
+          "storage_offset": "0x28",
+          "load_bits": 32,
+          "load_instruction": "0x478d7e0",
+          "writer_call": "0x478d7ec",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 7,
+          "encoding": "varint_32",
+          "storage_offset": "0x2c",
+          "load_bits": 32,
+          "load_instruction": "0x478d7f8",
+          "writer_call": "0x478d804",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 8,
+          "encoding": "message",
+          "storage_offset": "0x30",
+          "load_bits": 64,
+          "load_instruction": "0x478d810",
+          "writer_call": "0x478d82c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 9,
+          "encoding": "varint_32",
+          "storage_offset": "0x40",
+          "load_bits": 32,
+          "load_instruction": "0x478d838",
+          "writer_call": "0x478d844",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 10,
+          "encoding": "message",
+          "storage_offset": "0x38",
+          "load_bits": 64,
+          "load_instruction": "0x478d850",
+          "writer_call": "0x478d86c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 11,
+          "encoding": "varint_32",
+          "storage_offset": "0x44",
+          "load_bits": 32,
+          "load_instruction": "0x478d878",
+          "writer_call": "0x478d884",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 12,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x48",
+          "load_bits": 64,
+          "load_instruction": "0x478d890",
+          "writer_call": "0x478d89c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 13,
+          "encoding": "varint_32",
+          "storage_offset": "0x50",
+          "load_bits": 32,
+          "load_instruction": "0x478d8a8",
+          "writer_call": "0x478d8b4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 14,
+          "encoding": "varint_32",
+          "storage_offset": "0x54",
+          "load_bits": 32,
+          "load_instruction": "0x478d8c0",
+          "writer_call": "0x478d8cc",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 15,
+          "encoding": "varint_32",
+          "storage_offset": "0x58",
+          "load_bits": 32,
+          "load_instruction": "0x478d8d8",
+          "writer_call": "0x478d8e4",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 16,
+          "encoding": "varint_64",
+          "storage_offset": "0x60",
+          "load_bits": 64,
+          "load_instruction": "0x478d8f0",
+          "writer_call": "0x478d8fc",
+          "writer": "0x5c1e5e4"
+        },
+        {
+          "number": 17,
+          "encoding": "varint_32",
+          "storage_offset": "0x5c",
+          "load_bits": 32,
+          "load_instruction": "0x478d908",
+          "writer_call": "0x478d914",
+          "writer": "0x5c1e618"
+        },
+        {
+          "number": 18,
+          "encoding": "message",
+          "storage_offset": "0x68",
+          "load_bits": 64,
+          "load_instruction": "0x478d920",
+          "writer_call": "0x478d93c",
+          "writer": "0x5c1e8d4"
+        },
+        {
+          "number": 19,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x70",
+          "load_bits": 64,
+          "load_instruction": "0x478d948",
+          "writer_call": "0x478d954",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 20,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x78",
+          "load_bits": 64,
+          "load_instruction": "0x478d960",
+          "writer_call": "0x478d96c",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 21,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x80",
+          "load_bits": 64,
+          "load_instruction": "0x478d978",
+          "writer_call": "0x478d984",
+          "writer": "0x5c1e73c"
+        },
+        {
+          "number": 24,
+          "encoding": "length_delimited_string_storage",
+          "storage_offset": "0x88",
+          "load_bits": 64,
+          "load_instruction": "0x478d990",
+          "writer_call": "0x478d9a4",
+          "writer": "0x5c1e73c"
+        }
+      ]
+    }
+  },
+  "business_instruction_checks": [
+    {
+      "offset": "0x3aeba10",
+      "instruction": "str x8, [x24, #8]"
+    },
+    {
+      "offset": "0x3aeb8f0",
+      "instruction": "add x1, x19, #0x30"
+    },
+    {
+      "offset": "0x3aebedc",
+      "instruction": "ldr w10, [x20, #0x78]"
+    },
+    {
+      "offset": "0x3aebee8",
+      "instruction": "stp w10, wzr, [x23, #0x28]"
+    },
+    {
+      "offset": "0x3b9c788",
+      "instruction": "mov w8, #1"
+    },
+    {
+      "offset": "0x3afa80c",
+      "instruction": "mov w9, #5"
+    },
+    {
+      "offset": "0x3afa81c",
+      "instruction": "str w9, [sp, #0x48]"
+    },
+    {
+      "offset": "0x3afaa38",
+      "instruction": "bl #0x26aeb5c"
+    }
+  ],
+  "limitations": [
+    "Fields list only covers recognized direct writer calls; repeated and other encodings can be absent.",
+    "Type names and wire numbers do not establish business semantics, enum values, or a callable ABI."
+  ]
+}
