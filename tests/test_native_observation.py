@@ -125,3 +125,21 @@ class NativeObservationTest(unittest.TestCase):
             submit=Mock(return_value={'submitted':True,'taskId':5})))
         wx._replies[5]={'bytes':[255]}
         self.assertEqual(wx.send_text('filehelper','test')['status'],'unconfirmed')
+
+
+class NativeCacheBudgetTest(unittest.TestCase):
+    session = NativeObservationTest.session
+    def test_large_message_cache_evicts_old_messages_by_bytes(self):
+        wx=self.session();wx._message_budget=3500
+        first={'message_id':'1','chat_id':'chat','text':'x'*200}
+        second={'message_id':'2','chat_id':'chat','text':'x'*200}
+        self.assertTrue(wx._remember(first));self.assertTrue(wx._remember(second))
+        self.assertEqual([m['message_id'] for m in wx.read()],['2'])
+        self.assertEqual(wx.dropped_messages,1);self.assertLessEqual(wx._message_bytes,wx._message_budget)
+
+    def test_mutating_queued_message_does_not_corrupt_byte_accounting(self):
+        wx=self.session();message={'text':'test'}
+        wx._enqueue({'event':'incoming_message','message':message})
+        message['revoked']=True
+        wx.next_event(0)
+        self.assertEqual(wx._event_bytes,0)

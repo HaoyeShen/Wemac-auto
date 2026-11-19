@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "wechat-aumac"
-version = "0.2.0"
-description = "Drive the macOS WeChat client to read and send messages (wxauto-style)"
+version = "0.3.3"
+description = "Control macOS WeChat through version-pinned internal functions"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "WeChat auMac contributors" }]
-keywords = ["wechat", "macos", "wxauto", "automation", "ui-automation"]
+keywords = ["wechat", "macos", "wxauto", "automation", "native-functions"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: MacOS :: MacOS X",
@@ -20,6 +20,7 @@ dependencies = []
 
 [project.optional-dependencies]
 hook = ["frida>=17,<18"]
+resources = ["Pillow>=10", "zstandard>=0.22"]
 
 [project.scripts]
 wechat-aumac = "wechat_aumac.cli:main"

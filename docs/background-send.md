@@ -1,9 +1,10 @@
 # 微信 4.2.0 原生后端与稳定性
 
-最新验收：2026-11-13。当前 API、命令和各类型的验证范围见 [原生接口用法](native-api.md)。
+最新验收：2026-11-14（0.3.0，仅保留原生后端）。当前 API、命令和各类型的验证范围见 [原生接口用法](native-api.md)。
 
 适用环境：macOS 26.7.1、Apple Silicon arm64、微信 4.2.0 / build 270348。
-本机运行对象是 `research/WeChat-Hook.app`，原版 `/Applications/WeChat.app`
+推荐运行对象为独立账号的 `research/WeChat-Wemac.app`，见 [账号隔离](account-isolation.md)。
+`research/WeChat-Hook.app` 为此前共用原版容器的旧实验副本；原版 `/Applications/WeChat.app`
 未修改，系统 SIP 保持开启。原生接口仍为实验性接口，按精确版本和文件指纹校验。
 
 ## 当前功能
@@ -20,7 +21,10 @@
 | 动态表情发送 | 小 GIF 经 UploadEmoji 请求收到 MD5、完整偏移和消息 ID |
 | 语音发送 | AMR-NB 测试语音收到服务器成功码、完整长度和消息 ID；修正 SDK 用保存的真实响应回放验证 |
 | 朋友圈读取 | 内部 211／210 请求返回一页 10 条动态及一条匹配 ID 的详情 |
-| 朋友圈发布、点赞、取消点赞、评论 | 已实现实验接口；默认关闭，只完成静态及原生编解码检查，没有执行服务器写入验收 |
+| 朋友圈评论 | 已在明确授权的动态上提交，并核对返回评论的作者及内容 |
+| 朋友圈发布、点赞、取消点赞 | 显式实验接口；未发布测试朋友圈 |
+| 引用和撤回 | 文字、引用、图片、GIF、语音、视频均已发送并通过内部函数撤回 |
+| 后台双向收发 | 两个不同账号都在后台，发送、收取、回复、再次收取已验证；前台 Word |
 
 发送当前经过内部网络请求层，尚未接入客户端本地消息入库和发出气泡更新。
 返回服务器成功响应代表服务器接受消息，不等于对方已读。
@@ -65,7 +69,7 @@ python3 -m venv .venv-hook
 构建或更新完成回调库时，先退出实验副本，再运行：
 
 ```bash
-.venv-hook/bin/python research/build_completion.py --install
+.venv-hook/bin/python research/build_completion.py --profile research/native-profile-isolated.json --install
 ```
 
 该脚本只更新停止运行的实验副本，并校验签名、更新 helper 指纹。
@@ -74,15 +78,15 @@ python3 -m venv .venv-hook
 ```bash
 # 版本与进程检查；inventory 模式不安装 Hook
 PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-status \
-  --profile research/native-profile-4.2.0.json
+  --profile research/native-profile-isolated.json
 
 # 接收新消息；Ctrl+C 停止。聊天名称必须先解析为内部 ID
 PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-watch \
-  --profile research/native-profile-4.2.0.json --chat CHATROOM_ID
+  --profile research/native-profile-isolated.json --chat CHATROOM_ID
 
 # 实际发送；请使用明确的内部接收者 ID
 PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-send \
-  --profile research/native-profile-4.2.0.json --to CHATROOM_ID '测试文字'
+  --profile research/native-profile-isolated.json --to CHATROOM_ID '测试文字'
 ```
 
 同时收发请复用同一个连接：
@@ -90,7 +94,7 @@ PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-send \
 ```python
 from wechat_aumac import WeChatNative
 
-with WeChatNative('research/native-profile-4.2.0.json', mode='full') as wx:
+with WeChatNative('research/native-profile-isolated.json', mode='full') as wx:
     result = wx.send_text('明确的 wxid 或 @chatroom ID', '测试文字')
     print(result)
     for message in wx.watch():

@@ -1,6 +1,6 @@
 {
-  "app": "/absolute/path/to/research/WeChat-Hook.app",
-  "corePath": "/absolute/path/to/research/WeChat-Hook.app/Contents/Resources/wechat.dylib",
+  "app": "/absolute/path/to/research/WeChat-Wemac.app",
+  "corePath": "/absolute/path/to/research/WeChat-Wemac.app/Contents/Resources/wechat.dylib",
   "build": "270348",
   "architecture": "arm64",
   "sha256": "REPLACE_WITH_LOCAL_CORE_SHA256",
@@ -241,10 +241,62 @@
     "moment_objectop_submit": {
       "offset": 40571672,
       "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "app_message_constructor": {
+      "offset": 86291868,
+      "head": "e86e02d008e11691087c00a9a8a10290"
+    },
+    "app_message_destructor": {
+      "offset": 86394032,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "app_message_submit": {
+      "offset": 51796048,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "app_message_serialize": {
+      "offset": 51796748,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "app_message_response": {
+      "offset": 51796940,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "revoke_constructor": {
+      "offset": 86280448,
+      "head": "086f029008813291087c00a9a8a102f0"
+    },
+    "revoke_destructor": {
+      "offset": 86281704,
+      "head": "f44fbea9fd7b01a9fd430091f30300aa"
+    },
+    "revoke_submit": {
+      "offset": 57004416,
+      "head": "ff4302d1fa6704a9f85f05a9f65706a9"
+    },
+    "revoke_serialize": {
+      "offset": 57005116,
+      "head": "ff4301d1f65702a9f44f03a9fd7b04a9"
+    },
+    "revoke_response": {
+      "offset": 57005308,
+      "head": "f657bda9f44f01a9fd7b02a9fd830091"
+    },
+    "decodeImageFile": {
+      "offset": 80182324,
+      "head": "fc6fbaa9fa6701a9f85f02a9f65703a9"
+    },
+    "cdnDownload": {
+      "offset": 96600520,
+      "head": "ff4305d1fc6f12a9f44f13a9fd7b14a9"
+    },
+    "cdnHttpsDownload": {
+      "offset": 96602092,
+      "head": "ff4305d1fc6f12a9f44f13a9fd7b14a9"
     }
   },
   "completionHelper": {
-    "path": "/absolute/path/to/research/WeChat-Hook.app/Contents/Frameworks/libaumac_completion.dylib",
+    "path": "/absolute/path/to/research/WeChat-Wemac.app/Contents/Frameworks/libaumac_completion.dylib",
     "sha256": "REPLACE_WITH_LOCAL_HELPER_SHA256"
   },
   "requestTypes": {
@@ -297,6 +349,16 @@
       "constructor": "moment_detail_constructor",
       "destructor": "moment_detail_destructor",
       "size": 40
+    },
+    "app_message": {
+      "constructor": "app_message_constructor",
+      "destructor": "app_message_destructor",
+      "size": 104
+    },
+    "revoke": {
+      "constructor": "revoke_constructor",
+      "destructor": "revoke_destructor",
+      "size": 72
     }
   },
   "observations": {
@@ -353,6 +415,18 @@
       "response": "moment_detail_response",
       "command_id": 210,
       "source": "static read-only scene analysis"
+    },
+    "app_message": {
+      "serialize": "app_message_serialize",
+      "response": "app_message_response",
+      "command_id": 107,
+      "source": "offline scene/copy/codec call analysis"
+    },
+    "revoke": {
+      "serialize": "revoke_serialize",
+      "response": "revoke_response",
+      "command_id": 536,
+      "source": "offline scene/copy/codec call analysis"
     }
   },
   "mediaSubmits": {
@@ -370,5 +444,20 @@
     "moment_interaction": "moment_interaction_submit",
     "moment_objectop": "moment_objectop_submit"
   },
-  "moments_write_server_verified": false
+  "messageSubmits": {
+    "app_message": "app_message_submit",
+    "revoke": "revoke_submit"
+  },
+  "moments_write_server_verified": false,
+  "nativeResources": {
+    "imageDecoder": "decodeImageFile"
+  },
+  "nativeCdnDownload": {
+    "bridge": {
+      "path": "/path/to/libwemac_cdn_download.dylib",
+      "sha256": "SET_HELPER_SHA256"
+    },
+    "callbackVtableOffset": 167609704,
+    "cacheRoot": "/Users/YOUR_USER/Library/Containers/com.wemac.auto.client/Data/Library/Caches/Wemac-auto/Downloads"
+  }
 }

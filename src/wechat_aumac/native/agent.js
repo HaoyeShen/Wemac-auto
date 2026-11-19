@@ -19,6 +19,7 @@ const observedOperations=CONFIG.observeOperations || [];
 const experimentalOperations=CONFIG.experimentalOperations || [];
 const readOperations=CONFIG.readOperations || [];
 const momentWriteKinds=CONFIG.momentWriteKinds || [];
+const messageWriteKinds=CONFIG.messageWriteKinds || [];
 let shuttingDown=false;
 const state={observedTextRequest:false};
 let completionBridge=null;
@@ -88,6 +89,38 @@ function wireFields(bytes) {
     }
     return fields;
 }
+// Optional, single-agent read-only research capture. Disabled in normal profiles.
+if(mode==='observe' && CONFIG.traceSnsUpload){
+    if(fn.snsTraceFactory)watches.push(Interceptor.attach(fn.snsTraceFactory,{
+        onEnter(args){
+            try{
+                emit({event:'sns_upload_factory',bytes:Array.from(new Uint8Array(args[1].readVolatile(2048))),
+                    backtrace:Thread.backtrace(this.context,Backtracer.ACCURATE).slice(0,24).map(p=>p.sub(core.base).toString())});
+            }catch(_){}
+        }
+    }));
+    watches.push(Interceptor.attach(fn.snsUploadProtoSerialize,{
+        onEnter(args){this.output=args[1];},
+        onLeave(result){
+            try{
+                const length=result.sub(this.output).toInt32();
+                if(length>0 && length<=1024*1024)emit({event:'sns_upload_wire',bytes:Array.from(new Uint8Array(this.output.readVolatile(length)))});
+            }catch(_){}
+        }
+    }));
+    watches.push(Interceptor.attach(fn.snsTraceTaskWrapper,{
+        onEnter(args){
+            try{
+                const task=args[0],size=Number(safeView(task.add(0x20),8).getBigUint64(0,true));
+                if(size<1 || size>256)return;
+                const path=safePointer(task.add(0x18)).readUtf8String(size).split('\x00')[0];
+                if(!/^\/cgi-bin\/[a-z0-9/_-]+$/i.test(path) || !/sns/i.test(path))return;
+                emit({event:'sns_task_path',cgi:path,commandId:safeU32(task.add(4)),
+                    backtrace:Thread.backtrace(this.context,Backtracer.ACCURATE).slice(0,20).map(p=>p.sub(core.base).toString())});
+            }catch(_){}
+        }
+    }));
+}
 if(['receive','full','observe'].includes(mode) && fn.parseSyncResponse)watches.push(Interceptor.attach(fn.parseSyncResponse,{
     onEnter(args){
         try{
@@ -127,7 +160,7 @@ if(mode==='full' || mode==='observe')watches.push(Interceptor.attach(fn.parseTex
 }));
 // Explicit opt-in observations. Copy completed wire buffers only; never call
 // constructors, serializers or any other C++ method from an interceptor.
-for(const operation of mode==='observe'?observedOperations:mode==='full'?[...experimentalOperations,...readOperations,...momentWriteKinds]:[]){
+for(const operation of new Set(mode==='observe'?observedOperations:mode==='full'?[...experimentalOperations,...readOperations,...momentWriteKinds,...messageWriteKinds,...(CONFIG.passiveOperations || [])]:[])){
     const entry=(CONFIG.observations || {})[operation];
     if(!entry || !fn[entry.serialize] || !fn[entry.response])throw Error('Unknown observer: '+operation);
     watches.push(Interceptor.attach(fn[entry.serialize],{
@@ -152,10 +185,11 @@ function submitNative(bytes,kind){
     const text=kind==='text';
     const readOnly=readOperations.includes(kind) && (CONFIG.readSubmits || {})[kind];
     const momentWrite=momentWriteKinds.includes(kind) && (CONFIG.momentSubmits || {})[kind];
-    if(!text && !readOnly && !momentWrite && !experimentalOperations.includes(kind))throw Error('Native operation is not enabled');
+    const messageWrite=messageWriteKinds.includes(kind) && (CONFIG.messageSubmits || {})[kind];
+    if(!text && !readOnly && !momentWrite && !messageWrite && !experimentalOperations.includes(kind))throw Error('Native operation is not enabled');
     if(!Array.isArray(bytes) || !bytes.length || bytes.length>(text?65536:1024*1024))throw Error('Invalid payload length');
     const entry=(CONFIG.requestTypes || {text:{constructor:'requestConstructor',destructor:'requestDestructor',size:48}})[kind];
-    const submit=text?fn.submitText:fn[(readOnly?CONFIG.readSubmits:momentWrite?CONFIG.momentSubmits:CONFIG.mediaSubmits || {})[kind]];
+    const submit=text?fn.submitText:fn[(readOnly?CONFIG.readSubmits:momentWrite?CONFIG.momentSubmits:messageWrite?CONFIG.messageSubmits:CONFIG.mediaSubmits || {})[kind]];
     if(!entry || !submit || !fn[entry.constructor] || !fn[entry.destructor])throw Error('Unsupported request type');
     const service=manager(),request=Memory.alloc(entry.size),input=Memory.alloc(bytes.length);
     input.writeByteArray(bytes);
@@ -197,6 +231,7 @@ rpc.exports={
     },
     submitMedia(bytes,kind){if(!['image','video','voice','sticker'].includes(kind))throw Error('Unsupported media type');return submitNative(bytes,kind);},
     fetchNative(bytes,kind){if(!['moment_timeline','moment_detail'].includes(kind) || !readOperations.includes(kind))throw Error('Unsupported read operation');return submitNative(bytes,kind);},
+    writeMessage(bytes,kind){if(!['app_message','revoke'].includes(kind) || !messageWriteKinds.includes(kind))throw Error('Message action is disabled');return submitNative(bytes,kind);},
     writeMoment(bytes,kind){if(!['moment_post','moment_interaction','moment_objectop'].includes(kind) || !momentWriteKinds.includes(kind))throw Error('Moments writing is disabled');return submitNative(bytes,kind);},
     status(){return {module:core.path,base:core.base.toString(),mode:mode,hookCount:watches.length,
         observedOperations:observedOperations,codecTypes:Object.keys(CONFIG.requestTypes || {text:{}}),

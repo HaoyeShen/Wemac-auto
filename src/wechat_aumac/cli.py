@@ -1,4 +1,4 @@
-"""Command-line interface for WeChat auMac."""
+"""Native-function-only command-line interface for Wemac-auto."""
 from __future__ import annotations
 
 import argparse
@@ -8,7 +8,6 @@ import math
 from pathlib import Path
 import time
 
-from .api import WeChatUI
 from .config import VERSION
 from .errors import WeChatAuMacError
 
@@ -17,76 +16,11 @@ def _json(value) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2, default=str))
 
 
-def _print_messages(messages) -> None:
-    for m in messages:
-        print(f"[{m.time}] {m.sender}: {m.text}")
-        if m is not messages[-1]:
-            print()
-
-
-def cmd_read(args) -> int:
-    wx = WeChatUI()
-    if args.raw:
-        print(wx.read_raw(chat=args.chat), end="")
-        return 0
-    result = wx.read_result(chat=args.chat, limit=args.limit)
-    if args.export:
-        from .export import export_messages
-
-        paths = export_messages(
-            result.messages, args.export, prefix=args.prefix,
-            formats=tuple(args.format) if args.format else ("json", "csv", "txt", "md"),
-        )
-        if args.json:
-            _json({"count": len(result.messages), "files": paths})
-        else:
-            for fmt, path in paths.items():
-                print(f"{fmt}: {path}")
-        return 0
-    if args.json:
-        _json([m.to_dict() for m in result.messages])
-    else:
-        _print_messages(result.messages)
-    return 0
-
-
-def cmd_send(args) -> int:
-    text = " ".join(args.text)
-    wx = WeChatUI()
-    result = wx.send(text, verify=args.verify)
-    if args.json:
-        _json(result.to_dict())
-    else:
-        print(f"sent: {result.text}")
-        if args.verify:
-            print("verified" if result.verified else "not verified")
-    return 0
-
-
-def cmd_open(args) -> int:
-    WeChatUI().open_chat(args.chat)
-    print(f"opened: {args.chat}")
-    return 0
-
-
 def _interval(value: str) -> float:
     number = float(value)
     if not math.isfinite(number) or number <= 0:
         raise argparse.ArgumentTypeError("interval must be a finite positive number")
     return number
-
-
-def cmd_watch(args) -> int:
-    print("Listening for new messages; Ctrl+C to stop.", file=sys.stderr, flush=True)
-    try:
-        for message in WeChatUI().watch(chat=args.chat, interval=args.interval):
-            if args.json:
-                print(json.dumps(message.to_dict(), ensure_ascii=False), flush=True)
-            else:
-                print(f"[{message.time}] {message.sender}: {message.text}", flush=True)
-    except KeyboardInterrupt:
-        return 130
-    return 0
 
 
 def cmd_hook_probe(args) -> int:
@@ -100,20 +34,29 @@ def cmd_hook_probe(args) -> int:
 def cmd_native(args) -> int:
     from .native import WeChatNative
 
-    sends={'native-send','native-send-image','native-send-sticker','native-send-voice','native-send-video'}
-    mode = ('full' if args.command in sends or args.command in {'native-moments','native-moment'} else
+    sends={'native-send','native-send-image','native-send-sticker','native-send-voice','native-send-video','native-send-quote','native-revoke','native-reply','native-moment-publish'}
+    mode = ('full' if args.command in sends or args.command in {'native-moments','native-moment','native-moment-like','native-moment-comment','native-moment-unlike'} else
             'inventory' if args.command == 'native-status' else
             'codec' if args.command in {'native-codec','native-moment-draft'} else
-            'observe' if args.command == 'native-observe' or getattr(args,'direction','incoming')!='incoming'
+            'observe' if args.command in {'native-observe','native-read','native-card-links'} or getattr(args,'direction','incoming')!='incoming'
             else 'receive')
     operations = getattr(args,'operation',()) or ()
-    if args.command=='native-watch' and mode=='observe':operations=None
+    if args.command in {'native-watch','native-read','native-card-links'} and mode=='observe':operations=None
     experimental=()
     if getattr(args,'experimental',False):experimental=(args.command.removeprefix('native-send-'),)
     reads=(('moment_timeline',) if args.command=='native-moments' else
            ('moment_detail',) if args.command=='native-moment' else ())
+    if args.command=='native-reply' and args.max_replies<1:raise ValueError('max-replies must be positive')
+    kwargs={}
+    moment_action={'native-moment-like':'like','native-moment-comment':'comment','native-moment-unlike':'unlike'}.get(args.command)
+    if moment_action:kwargs['moments_operations']=(moment_action,)
+    if args.command=='native-moment-publish':kwargs['moments_operations']=('publish',)
+    actions=(('quote',) if args.command=='native-send-quote' or (args.command=='native-reply' and args.quote) else
+             ('revoke',) if args.command=='native-revoke' else ())
+    if actions:kwargs['message_operations']=actions
+    if getattr(args,'pid',None) is not None:kwargs['pid']=args.pid
     with WeChatNative(args.profile, mode=mode, observe_operations=operations,
-                      experimental_operations=experimental,read_operations=reads) as wx:
+                      experimental_operations=experimental,read_operations=reads,**kwargs) as wx:
         if args.command == 'native-status':
             _json({'session': wx.status(), 'verified_capabilities': wx.profile.get('verified_capabilities', [])})
         elif args.command == 'native-send':
@@ -131,6 +74,40 @@ def cmd_native(args) -> int:
             result=getattr(wx,'send_'+kind)(args.to,args.path,**kwargs)
             _json(result)
             return 0 if result['status']=='acknowledged' else 1
+        elif args.command=='native-send-quote':
+            reference=json.loads(Path(args.reference).read_text())
+            result=wx.send_quote(args.to,args.text,reference,timeout=args.timeout);_json(result)
+            return 0 if result['status']=='acknowledged' else 1
+        elif args.command=='native-revoke':
+            message=json.loads(Path(args.message).read_text())
+            result=wx.revoke_message(message,timeout=args.timeout);_json(result)
+            return 0 if result['status']=='acknowledged' else 1
+        elif args.command=='native-reply':
+            count=0;deadline=time.monotonic()+args.seconds
+            for message in wx.watch(chat_id=args.chat,direction='incoming',timeout=args.seconds):
+                if time.monotonic()>=deadline:break
+                if message.get('message_type',0)>=10000:continue
+                result=wx.reply(message,args.text,quote=args.quote,timeout=args.timeout)
+                _json(result);count+=1
+                if result['status']!='acknowledged':return 1
+                if count>=args.max_replies:break
+        elif args.command in {'native-read','native-card-links'}:
+            # Events are captured in the WeChat sync hook without moving focus.
+            deadline=time.monotonic()+args.seconds
+            while time.monotonic()<deadline:
+                wx.next_event(timeout=min(.25,max(0,deadline-time.monotonic())))
+                if wx._detached:raise WeChatAuMacError('WeChat detached; collection stopped')
+            messages=wx.read(chat_id=args.chat,limit=args.limit)
+            _json([wx.get_card_links(m) for m in messages if 'card' in m or 'card_error' in m] if args.command=='native-card-links' else messages)
+        elif args.command=='native-moment-publish':
+            result=(wx.publish_image_moment(args.text,args.image,visibility=args.visibility,timeout=args.timeout) if args.image else
+                    wx.publish_moment(args.text,visibility=args.visibility,timeout=args.timeout))
+            _json(result);return 0 if result['status']=='acknowledged' else 1
+        elif moment_action:
+            method=getattr(wx,moment_action+'_moment')
+            result=(method(args.id,args.text,timeout=args.timeout) if moment_action=='comment' else
+                    method(args.id,timeout=args.timeout))
+            _json(result);return 0 if result['status']=='acknowledged' else 1
         elif args.command=='native-moments':
             result=wx.get_moments(max_id=args.max_id,timeout=args.timeout);_json(result)
             return 0 if result['status']=='acknowledged' else 1
@@ -183,60 +160,13 @@ def cmd_native(args) -> int:
     return 0
 
 
-def cmd_doctor(args) -> int:
-    report = WeChatUI.doctor()
-    if args.json:
-        _json(report)
-        return 0
-    print(f"WeChat auMac {VERSION}")
-    print(f"platform ok : {report['platform_ok']}")
-    print(f"running     : {report['running']}  pid={report['pid']}")
-    print(f"window      : {report['window']}")
-    print(f"screen      : {report['screen']}")
-    print(f"maximized   : {report['maximized']}")
-    print(f"fullscreen  : {report['fullscreen']}")
-    print(f"clipboard   : {report['clipboard_ok']}")
-    if report.get("error"):
-        print(f"error       : {report['error']}")
-    return 0
-
-
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="wechat-aumac",
-        description="Read and send WeChat messages through the macOS WeChat client.",
+        description="Control WeChat through version-pinned internal functions.",
     )
     p.add_argument("--version", action="version", version=f"%(prog)s {VERSION}")
     sub = p.add_subparsers(dest="command", required=True)
-
-    read = sub.add_parser("read", help="copy and parse the current chat history")
-    read.add_argument("--chat", help="open this chat by name first (best-effort)")
-    read.add_argument("--limit", type=int, help="return only the last N messages")
-    read.add_argument("--json", action="store_true", help="print JSON")
-    read.add_argument("--raw", action="store_true", help="print the raw copied transcript")
-    read.add_argument("--export", metavar="DIR", help="also export the messages to DIR")
-    read.add_argument("--prefix", default="chat", help="export filename prefix")
-    read.add_argument(
-        "--format", action="append", choices=["json", "csv", "txt", "md"],
-        help="export format (repeatable; default: all)",
-    )
-    read.set_defaults(func=cmd_read)
-
-    send = sub.add_parser("send", help="send a message from the current chat's input box")
-    send.add_argument("text", nargs="+", help="message text")
-    send.add_argument("--verify", action="store_true", help="read the message back after sending")
-    send.add_argument("--json", action="store_true", help="print JSON")
-    send.set_defaults(func=cmd_send)
-
-    open_p = sub.add_parser("open", help="open a chat by name (best-effort search)")
-    open_p.add_argument("chat")
-    open_p.set_defaults(func=cmd_open)
-
-    watch = sub.add_parser("watch", help="poll the current chat for newly appended messages")
-    watch.add_argument("--chat", help="open this chat once before listening (best-effort)")
-    watch.add_argument("--interval", type=_interval, default=10.0, help="seconds between reads (default: 10)")
-    watch.add_argument("--json", action="store_true", help="output one JSON object per new message")
-    watch.set_defaults(func=cmd_watch)
 
     hook = sub.add_parser("hook-probe", help="inspect compatibility for experimental background sending")
     hook.add_argument("--app", default="/Applications/WeChat.app", help="WeChat app bundle path")
@@ -256,10 +186,11 @@ def build_parser() -> argparse.ArgumentParser:
     native_image.add_argument('--profile',required=True)
     native_image.add_argument('--to',required=True,help='internal wxid or chatroom ID')
     native_image.add_argument('--timeout',type=_interval,default=30)
+    native_image.add_argument('--experimental',action='store_true',help='explicitly opt into the image contract before local server verification')
     native_image.add_argument('path')
     native_image.set_defaults(func=cmd_native)
     for kind,help_text in [('sticker','send a GIF sticker (at most 64 KiB)'),
-                           ('voice','send AMR-NB voice (at most 64 KiB / 60 seconds)'),
+                           ('voice','send Tencent SILK or AMR-NB voice (at most 64 KiB / 60 seconds)'),
                            ('video','send MP4 video with a JPEG thumbnail')]:
         command=sub.add_parser('native-send-'+kind,help=help_text)
         command.add_argument('--profile',required=True)
@@ -279,13 +210,13 @@ def build_parser() -> argparse.ArgumentParser:
     native_observe.add_argument('--profile',required=True)
     native_observe.add_argument('--seconds',type=_interval,default=30)
     native_observe.add_argument('--operation',action='append',choices=[
-        'image','video','sticker','voice','moment_post','moment_interaction','moment_objectop','moment_timeline','moment_detail'],
+        'image','video','sticker','voice','moment_post','moment_interaction','moment_objectop','moment_timeline','moment_detail','app_message','revoke'],
         help='additional operation to observe (repeatable); default: text only')
     native_observe.set_defaults(func=cmd_native)
     native_codec = sub.add_parser('native-codec',help='parse/serialize a protobuf request locally; cannot submit')
     native_codec.add_argument('--profile',required=True)
     native_codec.add_argument('--kind',required=True,choices=[
-        'text','image','video','sticker','voice','moment_post','moment_interaction','moment_objectop','moment_timeline','moment_detail'])
+        'text','image','video','sticker','voice','moment_post','moment_interaction','moment_objectop','moment_timeline','moment_detail','app_message','revoke'])
     native_codec.add_argument('--payload',required=True,help='protobuf wire file, not an image/audio file')
     native_codec.set_defaults(func=cmd_native)
     timeline=sub.add_parser('native-moments',help='read one visible Moments page; never publishes')
@@ -299,10 +230,36 @@ def build_parser() -> argparse.ArgumentParser:
     draft=sub.add_parser('native-moment-draft',help='prepare and codec-check a text post; never publishes')
     draft.add_argument('--profile',required=True);draft.add_argument('--visibility',required=True,choices=['private','public'])
     draft.add_argument('text');draft.set_defaults(func=cmd_native)
+    publish=sub.add_parser('native-moment-publish',help='publish a text or one-image Moments post through native functions')
+    publish.add_argument('--profile',required=True);publish.add_argument('--visibility',required=True,choices=['private','public'])
+    publish.add_argument('--image');publish.add_argument('--timeout',type=_interval,default=40)
+    publish.add_argument('text');publish.set_defaults(func=cmd_native)
 
-    doc = sub.add_parser("doctor", help="show permissions/window diagnostics")
-    doc.add_argument("--json", action="store_true", help="print JSON")
-    doc.set_defaults(func=cmd_doctor)
+    for name in ('native-read','native-card-links'):
+        command=sub.add_parser(name,help='collect native background messages'+(' and embedded card links' if name.endswith('links') else ''))
+        command.add_argument('--profile',required=True);command.add_argument('--chat')
+        command.add_argument('--seconds',type=_interval,default=5);command.add_argument('--limit',type=int,default=50)
+        command.set_defaults(func=cmd_native)
+    quote=sub.add_parser('native-send-quote',help='send a native quoted reply to an explicit chat')
+    quote.add_argument('--profile',required=True);quote.add_argument('--to',required=True)
+    quote.add_argument('--reference',required=True,help='JSON message from native observation, including chat_id and message_id')
+    quote.add_argument('--timeout',type=_interval,default=15);quote.add_argument('text');quote.set_defaults(func=cmd_native)
+    revoke=sub.add_parser('native-revoke',help='recall one of our own native messages')
+    revoke.add_argument('--profile',required=True);revoke.add_argument('--message',required=True,help='JSON outgoing native message')
+    revoke.add_argument('--timeout',type=_interval,default=15);revoke.set_defaults(func=cmd_native)
+    for action in ('like','comment','unlike'):
+        command=sub.add_parser('native-moment-'+action,help='explicit native Moments '+action+' (experimental)')
+        command.add_argument('--profile',required=True);command.add_argument('--id',required=True)
+        command.add_argument('--timeout',type=_interval,default=15)
+        if action=='comment':command.add_argument('text')
+        command.set_defaults(func=cmd_native)
+    reply=sub.add_parser('native-reply',help='receive and reply in the background, restricted to one internal chat ID')
+    reply.add_argument('--profile',required=True);reply.add_argument('--chat',required=True)
+    reply.add_argument('--text',required=True);reply.add_argument('--quote',action='store_true')
+    reply.add_argument('--timeout',type=_interval,default=15);reply.add_argument('--seconds',type=_interval,default=300)
+    reply.add_argument('--max-replies',type=int,default=1);reply.set_defaults(func=cmd_native)
+    for command in sub.choices.values():
+        if command.get_default('func') is cmd_native:command.add_argument('--pid',type=int,help='exact PID belonging to the selected app/profile')
 
     return p
 

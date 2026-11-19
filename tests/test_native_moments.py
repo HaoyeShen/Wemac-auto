@@ -99,3 +99,34 @@ class MomentsContractTest(unittest.TestCase):
         with self.assertRaises(NativeError):wx.like_moment(123)
         with self.assertRaises(NativeError):wx.unlike_moment(123)
         wx._moment_write.assert_not_called()
+
+class MomentsReadbackTest(unittest.TestCase):
+    session = MomentsContractTest.session
+    def test_comment_and_like_lists_keep_exact_ids_and_text(self):
+        interaction=(blob(1,'self')+blob(2,'name')+integer(4,2)+blob(5,'comment')
+                     +integer(6,100)+integer(11,18446744073709551615))
+        obj=post()+integer(10,1)+integer(11,1)+blob(12,interaction)+blob(9,blob(1,'liker'))
+        result=parse_object(obj)
+        self.assertEqual(result['comments'][0]['comment_id'],'18446744073709551615')
+        self.assertEqual(result['comments'][0]['text'],'comment')
+        self.assertEqual(result['likes'][0]['user_id'],'liker')
+
+    def test_success_code_without_exact_comment_gets_readback_but_never_resubmits(self):
+        wx=self.session(mode='full',moments_operations=['comment'])
+        wx.identity=Mock(return_value={'user_id':'self'})
+        wx.get_moment=Mock(return_value={'status':'acknowledged','post':{'post_id':'123','owner_id':'owner','comments':[]}})
+        wx._moment_write=Mock(return_value={'status':'response_received','task_id':7,'bytes':blob(1,integer(1,0))+blob(2,post(123))})
+        result=wx.comment_moment(123,'comment')
+        self.assertEqual(result['status'],'unconfirmed');self.assertFalse(result['interaction_confirmed'])
+        self.assertEqual(wx.get_moment.call_count,2);wx._moment_write.assert_called_once()
+
+    def test_exact_comment_confirms_user_text_and_post(self):
+        wx=self.session(mode='full',moments_operations=['comment'])
+        wx.identity=Mock(return_value={'user_id':'self'})
+        wx.get_moment=Mock(return_value={'status':'acknowledged','post':{'post_id':'123','owner_id':'owner','comments':[]}})
+        comment=blob(1,'self')+blob(5,'comment')+integer(11,1234)
+        response=blob(1,integer(1,0))+blob(2,post(123)+blob(12,comment))
+        wx._moment_write=Mock(return_value={'status':'response_received','task_id':7,'bytes':response})
+        result=wx.comment_moment(123,'comment')
+        self.assertEqual(result['status'],'acknowledged');self.assertTrue(result['interaction_confirmed'])
+        wx.get_moment.assert_called_once();wx._moment_write.assert_called_once()

@@ -7,4 +7,4 @@ import sys
 from wechat_aumac.cli import main
 
 if __name__ == "__main__":
-    raise SystemExit(main(["watch", *sys.argv[1:]]))
+    raise SystemExit(main(["native-watch", *sys.argv[1:]]))

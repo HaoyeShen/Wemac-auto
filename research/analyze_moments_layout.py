@@ -35,7 +35,7 @@ MEDIA_VTABLES = {
     'voice_request': 0x9fddba8,
 }
 READ_VTABLES = {'timeline_request':0xa041a08,'detail_request':0xa041648,
-               'timeline_response':0xa041af8,'detail_response':0xa0416c0,'sns_object':0xa040f40}
+               'timeline_response':0xa041af8,'detail_response':0xa0416c0,'sns_object':0xa040f40,'sns_comment_info':0xa040a90}
 WRITERS = {
     0x5c1e8d4: 'message',
     0x5c1e73c: 'length_delimited_string_storage',

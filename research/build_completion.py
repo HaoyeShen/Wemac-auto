@@ -11,8 +11,13 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
 from wechat_aumac.hook_probe import process_path
 
 root=Path(__file__).resolve().parent
-app=root/'WeChat-Hook.app'
-p=argparse.ArgumentParser(description=__doc__);p.add_argument('--install',action='store_true');args=p.parse_args()
+p=argparse.ArgumentParser(description=__doc__)
+p.add_argument('--install',action='store_true')
+p.add_argument('--profile',type=Path,default=root/'native-profile-4.2.0.json')
+args=p.parse_args()
+profile=args.profile.resolve();r=json.loads(profile.read_text());app=Path(r['app']).resolve()
+if app.parent!=root.resolve() or app==Path('/Applications/WeChat.app'):
+    raise SystemExit('Only a local research app can receive this helper')
 source=root.parent/'src/wechat_aumac/native/completion.cpp'
 output=root/'native-completion.dylib'
 subprocess.run(['clang++','-std=c++17','-O2','-arch','arm64','-dynamiclib',str(source),'-o',str(output)],check=True)
@@ -29,7 +34,6 @@ if args.install:
     subprocess.run(['codesign','--force','--sign','-','--options','0','--entitlements',str(ent),str(app)],check=True)
     subprocess.run(['codesign','--verify','--deep','--strict',str(app)],check=True)
     output=destination
-profile=root/'native-profile-4.2.0.json'
-r=json.loads(profile.read_text());r['completionHelper']={'path':str(output),'sha256':hashlib.file_digest(output.open('rb'),'sha256').hexdigest()}
+r['completionHelper']={'path':str(output),'sha256':hashlib.file_digest(output.open('rb'),'sha256').hexdigest()}
 profile.write_text(json.dumps(r,indent=2))
 print('Completion bridge:',output)

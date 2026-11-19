@@ -26,6 +26,7 @@ research/*
 !research/*.swift
 !research/README.md
 !research/native-profile-4.2.0.example.json
+!research/message-actions-layout.json
 !research/media-functions.json
 !research/moments-entrypoints.json
 !research/moments-request-layout.json
@@ -38,3 +39,21 @@ research/*
 !.env.example
 *.pem
 *.key
+
+# macOS bot private environment and runtime data
+.venv-bot/
+bot/data/*
+!bot/data/stickers/
+bot/logs/
+bot/.runtime/
+packaging/.build/
+packaging/payload/*.dylib
+packaging/payload/sdk/
+packaging/payload/character-voice.tar.gz
+
+# Incoming-media diagnostics contain account-bound URLs and private samples.
+research/incoming-image-inspection/
+research/inspect_incoming_images.py
+research/inspect_image_records.py
+research/image_observer_controller.py
+research/native_media_controller.py

@@ -25,13 +25,18 @@ def _return_code(fields, field=1):
 
 def voice_request(sender, receiver, client_id, data, *, duration_ms, timestamp):
     _strings(sender,receiver,client_id)
-    if not data.startswith(b'#!AMR\n') or not 0<len(data)<=65536:
-        raise ValueError('This voice contract only supports one AMR-NB chunk')
+    if not 0<len(data)<=65536:raise ValueError('Voice exceeds one upload chunk')
+    if data.startswith(b'#!AMR\n'):
+        actual_duration=amr_duration_ms(data);voice_format=0
+    else:
+        from .voice import duration_ms as silk_duration_ms
+        actual_duration=silk_duration_ms(data);voice_format=4
+    if actual_duration!=duration_ms:raise ValueError('Voice duration differs from encoded frames')
     if not 0<duration_ms<=60000:raise ValueError('Invalid voice duration')
     return (blob(1,sender)+blob(2,receiver)+integer(3,0)+integer(4,len(data))
             +blob(5,client_id)+integer(6,0)+integer(7,duration_ms)+blob(8,_buffer(data))
             +integer(9,1)+blob(10,base_request_placeholder())+integer(11,0)
-            +integer(13,0)+integer(14,timestamp)+integer(15,0))
+            +integer(13,voice_format)+integer(14,timestamp)+integer(15,0))
 
 
 def parse_voice_response(data):
@@ -61,12 +66,20 @@ def amr_duration_ms(data):
     return frames*20
 
 
-def sticker_request(receiver, client_id, data):
+def sticker_request(receiver, client_id, data, *, total=None, offset=0, digest=None):
     _strings(receiver,client_id)
-    if not data.startswith((b'GIF87a',b'GIF89a')) or not 0<len(data)<=65536:
-        raise ValueError('This sticker contract only supports one GIF chunk')
-    digest=hashlib.md5(data).hexdigest()
-    item=(blob(1,digest)+integer(2,0)+integer(3,len(data))+blob(4,_buffer(data))
+    total=len(data) if total is None else total
+    if (not data or len(data)>65536 or not isinstance(total,int) or isinstance(total,bool)
+            or not 0<total<=8*1024*1024 or not isinstance(offset,int) or isinstance(offset,bool)
+            or offset<0 or offset+len(data)>total):
+        raise ValueError('Invalid bounded sticker chunk')
+    if offset==0 and not data.startswith((b'GIF87a',b'GIF89a')):
+        raise ValueError('The first sticker chunk must start with a GIF header')
+    if digest is None:
+        if offset or total!=len(data):raise ValueError('Chunked sticker requests require the full-file MD5')
+        digest=hashlib.md5(data).hexdigest()
+    if not __import__('re').fullmatch('[a-f0-9]{32}',digest):raise ValueError('Invalid sticker MD5')
+    item=(blob(1,digest)+integer(2,offset)+integer(3,total)+blob(4,_buffer(data))
           +integer(5,2)+blob(6,receiver)+blob(9,client_id))
     return blob(1,base_request_placeholder())+integer(2,1)+blob(3,item),digest
 

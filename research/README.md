@@ -50,3 +50,18 @@ PYTHONPATH=src python3 -m unittest discover -s tests -q
 
 All runtime outputs under this directory are ignored by default. Add only reviewed
 source or static metadata to the allowlist in `.gitignore`.
+
+
+Version 0.3 uses internal functions only; no Accessibility/UI backend remains.
+Use `prepare_isolated_copy.py` to create `WeChat-Wemac.app` without copying account
+containers, and see [account isolation](../docs/account-isolation.md). Analysis scripts
+that use Capstone require `python3 -m pip install 'capstone>=5,<6'` in the research
+environment; the core SDK and isolated-copy builder do not require Capstone.
+
+`build_message_actions_catalog.py` records exact app-message/single-revoke function
+entries, including a Mach-O function-boundary check. It grants no capabilities.
+The shipped profile example includes this static catalog, with empty capabilities
+and placeholder local hashes. Capture and all `verify_*` scripts keep their local
+outputs ignored. Send experiments require an explicit `--send` and local binding.
+Do not run them as an unattended test suite. The two-account check uses exactly
+the existing bound test chat, not arbitrary newly observed chats.

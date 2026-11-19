@@ -89,6 +89,29 @@ def process_path(pid: int) -> str | None:
     return buffer.value.decode('utf-8')
 
 
+def select_process(app: str | Path, *, pid: int | None = None) -> int:
+    """Choose by executable path so separately installed clients can coexist."""
+    app = Path(app).expanduser().resolve()
+    with (app / 'Contents/Info.plist').open('rb') as stream:
+        info = plistlib.load(stream)
+    expected = (app / 'Contents/MacOS' / info.get('CFBundleExecutable', 'WeChat')).resolve()
+    if pid is not None:
+        if isinstance(pid, bool) or not isinstance(pid, int) or pid <= 0:
+            raise ValueError('pid must be a positive integer')
+        candidates = [pid]
+    else:
+        result = _run(['pgrep', '-x', info.get('CFBundleExecutable', 'WeChat')])
+        candidates = [int(p) for p in result.get('stdout', '').splitlines() if p.isdigit()]
+    matches = []
+    for candidate in candidates:
+        actual = process_path(candidate)
+        if actual and Path(actual).resolve() == expected:
+            matches.append(candidate)
+    if len(matches) != 1:
+        raise ValueError('Running process does not match selected app, or multiple matching processes exist; pass its exact PID')
+    return matches[0]
+
+
 def probe(app: str | Path = '/Applications/WeChat.app', *, attach: bool = False) -> dict:
     app = Path(app).expanduser().resolve()
     report = {'app': str(app), 'platform': platform.system(),
@@ -120,19 +143,12 @@ def probe(app: str | Path = '/Applications/WeChat.app', *, attach: bool = False)
     process = _run(['pgrep', '-x', 'WeChat'])
     report['pids'] = [int(p) for p in process.get('stdout', '').splitlines() if p.isdigit()]
     if attach:
-        # Require an unambiguous target. Multi-instance selection needs an
-        # explicit process identity check before instrumentation is attempted.
-        if len(report['pids']) != 1:
-            report['attach'] = {'ok': False, 'error': 'expected exactly one WeChat process'}
-        else:
-            pid = report['pids'][0]
-            executable = process_path(pid)
-            report['process_path'] = executable
-            expected = app / 'Contents/MacOS' / info.get('CFBundleExecutable', 'WeChat')
-            if executable is None or Path(executable).resolve() != expected.resolve():
-                report['attach'] = {'ok': False, 'error': 'running process does not match requested app'}
-            else:
-                report['attach'] = attach_inventory(pid)
+        try:
+            pid = select_process(app)
+            report['process_path'] = process_path(pid)
+            report['attach'] = attach_inventory(pid)
+        except ValueError as exc:
+            report['attach'] = {'ok': False, 'error': str(exc)}
         if not report['attach'].get('ok'):
             report['status'] = 'attach_failed'
     report['next_step'] = (

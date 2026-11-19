@@ -1,4 +1,11 @@
 #!/bin/sh
 DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 export PYTHONPATH="$DIR/src${PYTHONPATH:+:$PYTHONPATH}"
-exec python3 -m wechat_aumac "$@"
+if [ -n "${WECHAT_AUMAC_PYTHON:-}" ]; then
+    AUMAC_PYTHON=$WECHAT_AUMAC_PYTHON
+elif [ -x "$DIR/.venv-hook/bin/python" ]; then
+    AUMAC_PYTHON=$DIR/.venv-hook/bin/python
+else
+    AUMAC_PYTHON=python3
+fi
+exec "$AUMAC_PYTHON" -m wechat_aumac "$@"

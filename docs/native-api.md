@@ -1,135 +1,134 @@
 # 原生接口、使用与验收范围
 
-更新：2026-11-13。仅适用于本机已核对的微信 4.2.0 / build 270348 / arm64 实验副本。
-所有收发、朋友圈请求均调用客户端内部函数；不通过鼠标、键盘、剪贴板或外部机器人服务发送。
+更新：2026-11-14，版本 0.3.0。支持已核对的微信 4.2.0 / build 270348 / arm64。
+已删除 UI 自动化后端。收发、监听、引用、撤回及朋友圈请求通过客户端内部函数完成。
+推荐使用独立副本的 `research/native-profile-isolated.json`；安装及双账号说明见
+[账号隔离](account-isolation.md)。
 
 ## 当前状态
 
-| 接口 | 状态 | 范围 |
+| 接口 | 验证情况 | 范围 |
 | --- | --- | --- |
-| `send_text(receiver_id, text)` | 原生提交及服务器确认 | 接收者必须是内部 ID |
-| `send_image(receiver_id, path)` | 单块及两块 PNG 已验证 | PNG/JPEG；最多 20 MiB；64 KiB 分块；JPEG 尚未单独实测 |
-| `send_sticker(receiver_id, path)` | 小 GIF 已获服务器确认 | GIF，最多 64 KiB，单块 |
-| `send_video(receiver_id, path, thumbnail=..., duration_seconds=...)` | 两阶段小样本已确认 | MP4，最多 20 MiB；JPEG 缩略图最多 64 KiB；时长由调用方提供 |
-| `send_voice(receiver_id, path)` | AMR 小样本已获服务器确认 | 已编码 AMR-NB，最多 64 KiB / 60 秒；不会把普通音频文件伪装成语音；SILK 未接入 |
-| `read(chat_id, limit=50)` | 观察缓存查询 | 连接后最近最多 2000 条；不是旧历史库查询 |
-| `watch(chat_id, direction=...)` | 实时收发事件 | `incoming`、`outgoing`、`both`；发出事件在服务器确认或自发消息同步后产生 |
-| `get_moments(max_id=0)` | 一页 10 条动态已读通 | 每次只请求一页，返回动态 ID、所有者、正文、时间及 XML |
-| `get_moment(post_id)` | 单条详情 ID 核对通过 | 只读，便于核对互动目标 |
-| `prepare_moment(text, visibility=...)` | 本地原生编解码通过 | 只创建纯文字草稿，不发布 |
-| `publish_moment(text, visibility=...)` | 实验接口，未做服务器验收 | 纯文字；可见性必须明确指定 `private` 或 `public`；不支持朋友圈媒体上传 |
-| `like_moment(post_id)` | 实验接口，未做服务器验收 | 先读取确切目标，再构造动作 1 |
-| `comment_moment(post_id, text)` | 实验接口，未做服务器验收 | 根评论，动作 2；回复、删除评论未实现 |
-| `unlike_moment(post_id)` | 实验接口，未做服务器验收 | 对象操作 5；不是把点赞动作改为 0 |
+| `send_text(receiver_id, text)` | 两个账号间后台发送与收取已验证 | 目标必须是内部 ID |
+| `send_quote(receiver_id, text, reference)` | AppMsg 57 原生编解码、发送、服务器 ID 与撤回已验证 | 明确原消息的聊天、发送者、类型、服务器 ID；不可跨聊天引用 |
+| `revoke_message(message)` | 文字、引用、图片、GIF、AMR、MP4 已逐类返回成功 | 仅自己的发出消息；需要原发送时间、客户端 ID、服务器 ID 和聊天绑定 |
+| `send_image(receiver_id, path)` | PNG 单块／分块和 JPEG 已验证 | 最多 20 MiB；64 KiB 分块 |
+| `send_sticker(receiver_id, path)` | 小 GIF 已验证并撤回 | GIF，最多 64 KiB，单块 |
+| `send_video(receiver_id, path, thumbnail=..., duration_seconds=...)` | MP4 两阶段上传及撤回已验证 | 视频最多 20 MiB，JPEG 缩略图最多 64 KiB，时长由调用方提供 |
+| `send_voice(receiver_id, path)` | SILK 与 AMR-NB 发送已验证 | 默认 24 kHz SILK，最多 64 KiB / 60 秒 |
+| `read(chat_id, limit=50)` | 原生观察缓存查询 | 最近最多 2000 条、约 32 MiB 估算内存；不查连接前历史数据库 |
+| `watch(chat_id, direction=..., timeout=None)` | 两客户端都在后台时已收取并回复 | `incoming`、`outgoing`、`both`；可设置监听截止时间 |
+| `reply(message, text, quote=False)` | 后台接收、发送、另一账号收到回复全链路验证 | 拒绝回复自己的消息和协议通知；引用回复需单独启用 quote |
+| `get_card_links(message)` | 真实引用卡片和链接卡片已解析 | 所有 XML 卡片子类型通用扫描，支持内嵌转发和多段 XML |
+| `get_moments(max_id=0)` / `get_moment(post_id)` | 原账号及独立账号读取已验证 | 列表分页；详情返回作者、正文、XML、评论和点赞列表 |
+| `comment_moment(post_id, text)` | 用户明确指定的动态上，提交与精确评论回读已验证 | 根评论，动作 2；不支持回复或删除评论 |
+| `like_moment(post_id)` | 实验接口、原生编解码已检查 | 动作 1；不能把评论成功等同于点赞实机验证 |
+| `unlike_moment(post_id)` | 实验接口、原生编解码已检查 | 对象操作 5 |
+| `prepare_moment(text, visibility=...)` | 本地原生编解码 | 不发布 |
+| `publish_moment(text, visibility=...)` | 实验接口、未做服务器发布验收 | 纯文字，明确 private/public；不支持朋友圈媒体上传 |
 
-2026-11-13 用户两次确认手机 `test` 聊天已经收到文字及所有测试媒体，记录见
-`research/recipient-confirmation.json`。这不等于接收端已读或所有媒体编码均可播放；
-视频／语音播放没有获得单独的明确确认。当前所有发送都绕过了 UI 的本地入库／
-气泡插入流程，发送端窗口可能不立即显示发出气泡。
-发生 `unconfirmed` 时保留消息 ID、任务 ID 与诊断，不自动重试，避免重复消息。
+服务器成功响应不代表对方已读。原生发送绕过客户端本地消息入库／气泡插入流程，
+发送端窗口可能不立即显示气泡。2026-11-13 用户确认手机收到全部测试类型；
+2026-11-14 在独立账号中重新验证了这些媒体及撤回。
+视频／语音播放没有得到单独的明确确认。大小和编码边界未做穷举验证。
 
-## 常规收发
+## 连接与后台运行
 
 ```python
-from wechat_aumac import WeChatNative
+from wechat_aumac import WeChat
 
-profile = 'research/native-profile-4.2.0.json'
-with WeChatNative(profile, mode='full') as wx:
-    print(wx.identity())
-    # 以下调用都会实际发送；请自行填写明确的接收者和文件。
-    # wx.send_text(CHAT_ID, '正文')
-    # wx.send_image(CHAT_ID, IMAGE_PATH)
-    # wx.send_sticker(CHAT_ID, GIF_PATH)
-    # wx.send_voice(CHAT_ID, AMR_PATH)
-    # wx.send_video(CHAT_ID, MP4_PATH, thumbnail=JPEG_PATH, duration_seconds=2)
+profile = 'research/native-profile-isolated.json'
+with WeChat(profile, mode='full') as wx:
+    for message in wx.watch(chat_id='INTERNAL_CHAT_ID', direction='incoming', timeout=300):
+        if message['message_type'] == 1:
+            result = wx.reply(message, '已收到')
+            print(result)
+            break
+```
+
+微信必须已登录、进程正常运行、网络可用；不要求其窗口在前台或打开目标聊天。
+系统休眠、网络中断或进程被停止时，库无法保证继续收发；退出／重启会停止监听。
+收到 `unconfirmed` 不自动重试，避免重复消息。
+
+多个账号按真实可执行文件路径选择；`pid=` / CLI `--pid` 也必须匹配所选 app。
+同一 PID 只允许一个本项目连接，监听与发送请复用同一会话。
+事件队列限制 2048 项及约 16 MiB 估算内存；消息缓存同时限制条数及约 32 MiB。
+积压会丢弃旧内容，并在 `status()` 返回 `dropped_events`／`dropped_messages`。
+
+## 引用、撤回与媒体
+
+```python
+with WeChat(profile, mode='full', message_operations=['quote', 'revoke']) as wx:
+    # 这些调用均会真实发送或撤回；替换目标后再使用。
+    sent = wx.send_text(CHAT_ID, '正文')
+    if sent['status'] == 'acknowledged':
+        quoted = wx.send_quote(CHAT_ID, '引用回复', sent['message'])
+        recalled = wx.revoke_message(sent['message'])
+```
+
+引用原文使用原生消息字典，包含 `chat_id`、`message_id`、`sender`、`message_type` 和 `text`。
+撤回还需要 `direction='outgoing'`、`to_user`、`timestamp` 和 `revoke_client_id` 或原生数字 `client_id`。
+SDK 的发出记录保留这些字段；不从不透明 UUID 猜测数字客户端 ID。
+引用和媒体也可从同一连接的 `read()` 中取到精确发出记录后撤回。
+
+撤回请求使用单条消息内部路径，不能套用批量撤回结构。
+缺字段、错账号或错聊天会在提交前拒绝；失败／超时不删除缓存、不自动重放。
+服务端决定消息是否仍允许撤回。服务器接受后，缓存标记 `revoked=True`，
+并产生 `message_revoked` 事件；同步收到的撤回通知也会更新已观察缓存。
+
+媒体默认启用 profile 中已经验收的类型。首次验证某类型时，可显式设置
+`experimental_operations=['image', 'sticker', 'voice', 'video']` 中需要的项。
+这不会启用朋友圈写入。图片和视频总超时覆盖分块传输；不会把部分偏移当作完整发送成功。
+
+## 卡片链接
+
+```python
+with WeChat(profile, mode='observe') as wx:
     for message in wx.watch(direction='both'):
-        print(message['direction'], message['chat_id'], message['text'])
+        if message.get('message_type') == 49:
+            print(wx.get_card_links(message))
 ```
 
-`mode='full'` 加载已校验的原生 completion 桥；仅发送经过 profile 标记的能力。
-未验证的媒体协议需调用方显式指定 `experimental_operations`。不能用该选项启用朋友圈写入。
-图片与视频的 `timeout` 覆盖整个分块上传过程，收到不匹配的接收者、客户端 ID、偏移或
-最终消息 ID 时不会报告成功。
+`card` 包含子类型、标题、链接列表及来源路径；`links` 提供 URL 字符串列表；
+引用卡片还包含 `quote`。扫描各层节点、属性、合并转发的内嵌 XML、CDATA 和有限层转义。
+不打开链接，不请求网页，不用外部服务解密附件。
+小程序只含 appid／pagepath 时返回原始路由，不生成不存在的网页 URL。
+URL 仅覆盖客户端已提供的消息内容（`link_scope='embedded_payload_only'`）；
+加密、附件内或服务器未下发的字段无法据此恢复。XML 最大 1 MiB、深度和节点数也有边界，
+不支持／异常格式保留原消息，并提供 `card_error`。
 
-```bash
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-watch \
-  --profile research/native-profile-4.2.0.json --direction both --chat CHAT_ID
-
-# 以下命令会实际发送文件；替换 CHAT_ID 和路径后使用。
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-send-image \
-  --profile research/native-profile-4.2.0.json --to CHAT_ID /absolute/image.png
-
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-send-sticker \
-  --profile research/native-profile-4.2.0.json --to CHAT_ID /absolute/sticker.gif
-
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-send-voice \
-  --profile research/native-profile-4.2.0.json --to CHAT_ID /absolute/voice.amr
-
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-send-video \
-  --profile research/native-profile-4.2.0.json --to CHAT_ID \
-  --thumbnail /absolute/thumbnail.jpg --duration 2 /absolute/video.mp4
-```
-
-## 朋友圈读取和草稿
+## 朋友圈显式写入
 
 ```python
-with WeChatNative(profile, mode='full',
-                  read_operations=['moment_timeline', 'moment_detail']) as wx:
-    page = wx.get_moments()
-    if page.get('posts'):
-        detail = wx.get_moment(page['posts'][0]['post_id'])
+with WeChat(profile, mode='full', moments_operations=['comment']) as wx:
+    # 以下仅示意；调用时需要明确目标和内容。
+    result = wx.comment_moment(POST_ID, '明确的评论正文')
 ```
 
-```bash
-# 只读取一页，绝不发布。
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-moments \
-  --profile research/native-profile-4.2.0.json
+`moments_operations` 支持 publish／like／unlike／comment，每类分别启用。
+普通 full 会话不能写朋友圈。CLI 的 native-moment-like／comment／unlike 对应明确的单次操作，
+不会启用其他写入；CLI 没有发布命令。
 
-# 只生成并校验草稿，输出 published: false。
-PYTHONPATH=src .venv-hook/bin/python -m wechat_aumac native-moment-draft \
-  --profile research/native-profile-4.2.0.json --visibility private '待核对正文'
-```
-
-## 朋友圈写入默认关闭
-
-普通 `full` 连接也不能调用朋友圈发布、点赞、取消点赞或评论。调用方需要显式设置
-`moments_operations`，取值为 `publish`、`like`、`unlike`、`comment`；每一类单独启用。
-这些方法是真实的内部提交路径，尚未通过服务器写入验收，不应作为自动测试运行。
-本轮没有执行任何朋友圈写入。
-
-```python
-# 仅展示如何单独启用评论；这段代码自身不执行评论。
-wx = WeChatNative(profile, mode='full', moments_operations=['comment'])
-# 进入连接后，仍需显式调用 wx.comment_moment(明确的动态ID, 明确的正文)。
-```
-
-互动前自动读取目标详情，失败或 ID 不匹配则不提交；请求使用新的客户端 ID，不自动重放。
-发布返回值还会核对作者、正文和可见性；若无法确认，则返回 `unconfirmed` 并提示帖子可能已存在。
-本地原生编解码通过只能验证对象格式、构造／析构等路径，不能证明服务器认可全部业务字段。
+互动前读取确切 ID 的详情，失败则不提交。点赞／评论成功后，检查返回或重新读取的
+点赞／评论列表，核对当前账号以及评论文本；无法确认则返回 unconfirmed，不重复写入。
+发布还需明确可见性，并核对返回的作者、正文和可见性。
+从未为调试擅自发布测试朋友圈。
 
 ## 诊断与证据
 
-- `inventory`：不安装 Hook；检查进程、核心指纹、指令字节与当前能力。
-- `receive`：接收同步消息；不允许提交。
-- `observe`：显式观察所选请求与响应；不允许提交。CLI 输出字段号和长度，不打印原始内容。
-- `codec`：仅构造、解析、序列化和析构请求对象；不允许提交。
-- `full`：允许已验证聊天发送；朋友圈写入仍需单独显式启用。
+inventory 不安装 Hook；receive 接收同步；observe 只观察；codec 只进行原生编解码；
+full 才允许已启用的提交。原生函数指纹、核心哈希、helper 哈希与 app/build 都会核对。
+构建新消息入口目录时，还会检查候选地址是否确为 Mach-O 函数起点。
 
-队列同时限制事件数和约 16 MiB 的估算内存，积压时丢弃旧事件并增加 `dropped_events`。
-单进程只允许一个原生连接；监听与发送应复用同一连接。
+当前本机报告（包含运行数据而不上传）：
 
-报告：
+- `two-account-background-verification.json`：两账号后台发送、收取和回复；前台 Word。
+- `isolated-features-verification.json`：独立副本的原生编解码、朋友圈读取、各媒体／引用发送与撤回。
+- `quote-send-verification.json`、`revoke-send-verification-fixed.json`：引用与文字撤回。
+- `moment-comment-verification.json`：明确授权的评论、返回成功及确切内容回读。
+- `isolated-copy-build.json`、`two-account-identity-verification.json`：签名隔离和不同账号。
 
-- `research/request-codec-verification.json`：10 类请求原生编解码。
-- `research/image-send-verification.json`、`image-chunked-send-verification.json`：单块／分块图片。
-- `research/remaining-media-verification.json`：GIF、视频及最初语音字段判断的原始结果。
-- `research/voice-response-field-verification.json`：保存完整响应后的语音字段核对。
-- `research/voice-api-verification.json`：修正 SDK 回放真实响应通过，没有为回放再次发送。
-- `research/moments-read-verification.json`：朋友圈只读请求。
-- `research/moments-write-codec-verification.json`：四种写入请求的本地编解码及关闭状态检查。
-- `research/final-text-watch-verification.json`：请求编号为 0、响应编号非 0 时，按同一原生 scene 关联并产生发出事件。
-- `research/recipient-confirmation.json`：手机端收到文字及所有测试媒体的用户确认。
+较早的 `request-codec-verification.json` 等报告属于旧实验；版本和范围以各报告及本页说明为准。
+所有测试素材、账号绑定、捕获、运行报告、app 和依赖均留在本机，Git 只保留源码和静态目录。
 
-测试素材由用户授权的本机图片生成小 GIF／MP4；AMR 为系统合成的“test”。
-AMR 编码器构建参考上游 [OpenCORE 编码示例](https://github.com/BelledonneCommunications/opencore-amr/blob/master/test/amrnb-enc.c)，
-素材、下载依赖与账号响应样本均保留在本机并加入忽略列表。
+`publish_image_moment(text, path, visibility=...)` 已接通原生 CDN 上传和 SNS 发布，并完成配图与评论实测回读；参见 [单图发布说明](native-sns-images.md)。
